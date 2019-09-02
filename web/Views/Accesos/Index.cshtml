@@ -1,0 +1,66 @@
+﻿@model IEnumerable<web.Models.Accesos>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-md-12">
+    <div style="position: relative;">
+        <div style="position: absolute;">
+            <h2>Opciones del sistema</h2>
+        </div>
+        <div style="position: absolute; top: 20px; right:0px;">
+            @Html.ActionLink("Crear Nueva Opción de Menú", "Create", null, new { @class = "btn btn-success" })
+            <br /><br />
+        </div>
+    </div>
+    <div class="col-md-12" style="position: absolute; top: 60px; left:0px;">
+        <table class="table table-striped table-responsive table-bordered">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Control)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Metodo)
+                </th>
+                <th>
+                    Predecesor
+                </th>
+                <th> Acciones</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.Control)
+                    </td>
+                    <td>
+
+                        @Html.DisplayFor(modelItem => item.Metodo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccesoPredecesor)
+                    </td>
+                    <td style="text-align:center;">
+                        @Html.ActionLink("Detalles", "Details", new { id = item.id_acceso }, new { @class = "btn btn-xs btn-info" })
+                        @Html.ActionLink("Editar", "Edit", new { id = item.id_acceso }, new { @class = "btn btn-xs btn-warning" }) 
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.id_acceso }, new { @class = "btn btn-xs btn-danger" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+</div>
+

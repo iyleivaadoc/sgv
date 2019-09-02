@@ -1,0 +1,58 @@
+﻿@using web.Models
+@model LoginViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    ViewBag.Title = "Log In";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4" style="text-align:center;">
+            <div class="col-md-12" style="color: #4f4d4d;"><h2>Sistema de Auditoría Interna (SAI).</h2></div>
+            <section id="loginForm">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                             <div class="col-md-10 centerForm">
+                                @Html.TextBoxFor(m => m.UserName, new { @placeholder = "Usuario", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10 centerForm">
+                                @Html.PasswordFor(m => m.Password, new { placeholder = "Contraseña", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="submit" value="Acceder" class="btn btn-default" />
+                            </div>
+                        </div>
+                }
+            </section>
+
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+@*<style>
+    .centerForm{
+        margin-left: 11%;
+    }
+
+    @media (max-width: 991px) {
+        .centerForm{
+            margin-left: 28%;
+        }
+    }
+</style>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,59 @@
+﻿@model web.Models.Accesos
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-6 col-md-offset-3">
+    <h2>Detalles</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt style="margin-top: 5px;">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => model.Nombre, new { disabled = "disabled", @class = "form-control" })
+        </dd>
+        <br />
+        <dt style="margin-top: 5px;">
+            @Html.DisplayNameFor(model => model.Control)
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => model.Control, new { disabled = "disabled", @class = "form-control" })
+        </dd>
+        <br />
+        <dt style="margin-top: 5px;">
+            @Html.DisplayNameFor(model => model.Metodo)
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => model.Metodo, new { disabled = "disabled", @class = "form-control" })
+        </dd>
+        <br />
+        <dt style="margin-top: 5px;">
+            @Html.DisplayNameFor(model => model.Tipo)
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => model.Tipo, new { disabled = "disabled", @class = "form-control" })
+        </dd>
+        <br />
+        <dt style="margin-top: 5px;">
+            @Html.DisplayNameFor(model => model.AccesoPredecesor)
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.AccesoPredecesor, new SelectList(ViewBag.Accesos, "value", "Text"), new { @class = "form-control" })*@
+           @Html.DropDownListFor(m => m.AccesoPredecesor, new SelectList(ViewBag.Accesos, "value", "Text"), new { @class = "form-control", disabled = "disabled" })
+        </dd>
+
+    </dl>
+    <div style="text-align:center;">
+        @Html.ActionLink("Editar", "Edit", new { id = Model.id_acceso },new { @class="btn btn-warning"}) 
+        @Html.ActionLink("Regresar", "Index",null, new { @class="btn btn-success"})
+    </div>
+</div>
+

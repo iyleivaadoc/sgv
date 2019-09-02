@@ -1,0 +1,39 @@
+﻿@model web.Models.RoleViewModel
+
+@{
+    ViewBag.Title = "Eliminar Rol";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Delete</h2>*@
+
+
+<div class="col-md-6 col-md-offset-3">
+    <h3>¿Realmente quiere eliminar este Rol?</h3>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+
+@using (Html.BeginForm("DeleteConfirmed", "Role", new { id = Model.Id }))
+{
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+
+    
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions" style="text-align:center">
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            @Html.ActionLink("Cancelar", "Index",null,new { @class = "btn btn-success" })
+        </div>
+    }
+</div>

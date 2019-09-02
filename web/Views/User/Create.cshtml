@@ -1,0 +1,67 @@
+﻿@model web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Crear Usuario";
+}
+
+<div class="col-md-6 col-md-offset-3">
+
+
+    @using (Html.BeginForm("Create", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h4>Crear nuevo Usuario.</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="UserName">Usuario</label>
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="RoleName">Rol</label>
+            <div class="col-md-9">
+                @Html.DropDownListFor(m => m.RoleName, new SelectList(ViewBag.Roles, "value", "Text"), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Nombres, new { @class = "col-md-3 control-label" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.Nombres, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Apellidos, new { @class = "col-md-3 control-label" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.Apellidos, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-3 control-label" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="Password">Contraseña</label>
+            <div class="col-md-9">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="ConfirmPassword">Confirmar Contraseña</label>
+            <div class="col-md-9">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12" style="text-align:center;">
+                <input type="submit" class="btn btn-default btn-success" value="Crear" />
+                @Html.ActionLink("cancelar", "Index", null, new { @class = "btn btn-warning" })
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

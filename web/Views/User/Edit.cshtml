@@ -1,0 +1,53 @@
+﻿@model web.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Editar Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal col-md-6 col-md-offset-3">
+        <h2>Modificar Usuario</h2>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="UserName">Usuario</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.UserName, new { @readonly = "readonly", @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Nombres, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Nombres, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Apellidos, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Apellidos, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <div class="col-md-12" style="text-align:center;">
+                <input type="submit" value="Guardar" class="btn btn-warning" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-success" })
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    
+</div>

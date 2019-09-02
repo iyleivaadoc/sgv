@@ -1,0 +1,129 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - SAI</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+
+    @*@if (User.Identity.IsAuthenticated) {<script>
+            var a = "@System.Web.HttpContext.Current.Session["sessionString"].ToString()";
+            console.log(a,a.length);
+        </script>
+        }*@
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/Home/Index">
+                    <img src="~/favicon.ico" style="margin-top: 10px;" alt="ADOC"/>
+                </a>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="dropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administración</a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdown1">
+                                <li class="dropdown-item" href="#">@Html.ActionLink("Usuarios", "Index", "User")</li>
+                                <li class="dropdown-item">@Html.ActionLink("Roles", "Index", "Role")</li>
+                                <li class="dropdown-item">@Html.ActionLink("Menú", "Index", "Accesos")</li>
+                            </ul>
+                        </li>
+                    }
+                    @{ var listMenu = (List<web.ViewModels.menuItemVM>)Session["menuPrincipal"];
+                        foreach (var item in listMenu.OrderBy(a => a.Tipo))
+                        {
+                            if (item.Tipo)
+                            {
+                                <li class="nav-link dropdown-toggle">
+                                    <a class="nav-link dropdown-toggle" href="/@item.Control/@item.Metodo">
+                                        @item.Nombre
+                                        <span style="font-size:24px;" class="pull-right showopacity fa aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item dropdown">
+                                    <a id="dropdown1" @item.Nombre data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@item.Nombre</a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdown1">
+                                        @foreach (var item2 in item.hijos)
+                                        {
+                                            <li class="nav-link dropdown-toggle">
+                                                <a class="nav-link dropdown-toggle" href="/@item2.Control/@item2.Metodo">
+                                                    @item2.Nombre
+                                                    <span style="font-size:24px;" class="pull-right showopacity fa aria-hidden="true"></span>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        }
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        @*<hr />
+            <footer style="text-align:center">
+                <p>&copy; @DateTime.Now.Year -ADOC</p>
+            </footer>*@
+    </div>
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script>
+        $(document).ready(function () {
+
+            $('.navbar .dropdown-item').on('click', function (e) {
+                var $el = $(this).children('.dropdown-toggle');
+                var $parent = $el.offsetParent(".dropdown-menu");
+                $(this).parent("li").toggleClass('open');
+
+                if (!$parent.parent().hasClass('navbar-nav')) {
+                    if ($parent.hasClass('show')) {
+                        $parent.removeClass('show');
+                        $el.next().removeClass('show');
+                        $el.next().css({ "top": -999, "left": -999 });
+                    } else {
+                        $parent.parent().find('.show').removeClass('show');
+                        $parent.addClass('show');
+                        $el.next().addClass('show');
+                        $el.next().css({ "top": $el[0].offsetTop, "left": $parent.outerWidth() - 4 });
+                    }
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+
+            $('.navbar .dropdown').on('hidden.bs.dropdown', function () {
+                $(this).find('li.dropdown').removeClass('show open');
+                $(this).find('ul.dropdown-menu').removeClass('show open');
+            });
+
+        });
+
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

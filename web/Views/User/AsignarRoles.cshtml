@@ -1,0 +1,90 @@
+﻿@model web.ViewModels.RolesUsuarioVM
+
+@{
+    ViewBag.Title = "Asignar Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Asignar Roles</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.UsuarioV.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UsuarioV.UserName,"Usuario", htmlAttributes: new { @class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UsuarioV.UserName, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.UsuarioV.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.AccesoV.id_acceso, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.AccesoV.id_acceso, new SelectList(ViewBag.Accesos, "value", "Text"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AccesoV.id_acceso, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="container" style="height:200px;width:500px;border:1px solid #ccc;overflow:auto;border-radius:10px; box-shadow: 2px 2px 0px grey;padding-left: 1px;padding-right: 1px;margin-left: 193px;">
+            <div class="checkbox" id="m" style="padding-left: 30px;">
+                @using (Html.BeginForm())
+                {
+                    int i = 0;
+
+
+                    foreach (var item in Model.RolDisp)
+                    {
+                        <div>
+                            @Html.CheckBoxFor(m => m.RolDisp[i].Selected, new { htmlAttributes = new { @value = Model.RolDisp[i].Id } })
+                            @Html.HiddenFor(m => m.RolDisp[i].Id)
+                            @Html.HiddenFor(m => m.RolDisp[i].Nombre)
+                            @Html.LabelFor(m => m.RolDisp[i].Id, Model.RolDisp[i].Nombre, new { htmlAttributes = new { @value = "@item.Id" } })
+                            <br />
+
+                        </div>
+                        i++;
+                    }
+
+                }
+            </div>
+
+        </div>
+        <br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script type="text/javascript">
+         function hideNoCriterio() {
+             var criterio = document.getElementById("q").value;
+             var hijos = document.getElementById("m").children;
+             for (var i = 0; i < hijos.length; i++) {
+                 var hijo = hijos[i];
+                 if (hijo.children[0].type == 'checkbox' && !hijo.children[7].textContent.includes(criterio.toLocaleUpperCase('en-US'))) {
+                 //if (hijo.children[0].type == 'checkbox') {
+                     //alert("Funciona hasta aqui!!")
+                     hijo.style.display = 'none';
+                 } else {
+                     //alert("Funciona hasta aqui!!")
+                     hijo.style.display = '';
+                 }
+             }
+         }
+
+</script>

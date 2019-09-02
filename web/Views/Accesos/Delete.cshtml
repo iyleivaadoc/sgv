@@ -1,0 +1,68 @@
+﻿@model web.Models.Accesos
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-3"></div>
+<div class="col-md-6">
+    <h2>Eliminar Opción de Menú</h2>
+
+    <h4>¿Está seguro que quiere eliminar esta opción de menú?</h4>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Control)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Control)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Metodo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Metodo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Tipo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.AccesoPredecesor)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AccesoPredecesor)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color" style="text-align:center;">
+                <input type="submit" value="Borrar" class="btn btn-danger" /> 
+                @Html.ActionLink("Cancelar", "Index",null,new { @class="btn btn-success"})
+            </div>
+        }
+    </div>
+</div>

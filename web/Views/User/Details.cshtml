@@ -1,0 +1,50 @@
+﻿@model web.Models.ApplicationUser
+@{
+    ViewBag.Title = "Detalles Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-md-6 col-md-offset-3">
+    <h4>Detalles de usuario</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <label>Usuario</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombres)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellidos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellidos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+
+    </dl>
+    <div class="col-md-12" style="text-align:center;">
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id },new { @class="btn btn-danger"}) |
+        @Html.ActionLink("Regresar", "Index",null,new { @class="btn btn-success"})
+    </div>
+</div>

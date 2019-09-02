@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@*<label>@ViewBag.saludo</label>
+@using (Html.BeginForm("Change", "Home"))
+{
+    <input type="submit" class="btn btn-default" value="ingles" />
+    @User.IsInRole("auditor")
+}*@
+
+<p class="text-success" style="margin-top:10px;">@ViewBag.StatusMessage</p>
+<div class="jumbotron" style="margin-top:30px;">
+    <h1>Sistema de Auditoría Interna</h1>
+    <p class="lead">Bienvenido @User.Identity.Name </p>
+    <p><a href="http://www.empresasadoc.com/es/inicio/" class="btn btn-lg" style="background-color:#FECA2B; color:#333333;">ADOC &raquo;</a></p>
+</div>
