@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web", "web\web.csproj", "{0BAF1742-70F1-4FE2-8701-B782B04EDED2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sgv", "web\sgv.csproj", "{0BAF1742-70F1-4FE2-8701-B782B04EDED2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,7 +20,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_NeutralResourcesLanguage = es-SV
 		RESX_PrefixTranslations = False
+		RESX_NeutralResourcesLanguage = es-SV
 	EndGlobalSection
 EndGlobal

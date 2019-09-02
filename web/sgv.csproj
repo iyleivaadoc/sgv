@@ -207,9 +207,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908281530178_pp.cs" />
-    <Compile Include="Migrations\201908281530178_pp.Designer.cs">
-      <DependentUpon>201908281530178_pp.cs</DependentUpon>
+    <Compile Include="Migrations\201909021353120_mig.cs" />
+    <Compile Include="Migrations\201909021353120_mig.Designer.cs">
+      <DependentUpon>201909021353120_mig.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accesos.cs" />
@@ -250,8 +250,8 @@
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EmbeddedResource Include="Migrations\201908281530178_pp.resx">
-      <DependentUpon>201908281530178_pp.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909021353120_mig.resx">
+      <DependentUpon>201909021353120_mig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resourses\Strings.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>
