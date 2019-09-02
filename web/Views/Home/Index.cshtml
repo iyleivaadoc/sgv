@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Bienvenido";
 }
 
 @*<label>@ViewBag.saludo</label>
@@ -10,8 +10,17 @@
 }*@
 
 <p class="text-success" style="margin-top:10px;">@ViewBag.StatusMessage</p>
+<div class="well" style="margin-top:30px; text-align:center;">
+    <h1>Sistema de Gestión de Viáticos</h1>
+    <label><strong>Bienvenido @ViewBag.usuario.Nombres </strong></label> <br />
+    <label><strong>Código de empleado: </strong>@ViewBag.usuario.CodigoEmpleado </label><br />
+    <label><strong>Correo electrónico: </strong>@ViewBag.usuario.Email</label><br />
+    <label><strong>Dirección a la que reporta: </strong></label><br />
+    <label><strong>País: </strong>  <strong>Tel: </strong> </label><br />
+</div>
+
 <div class="jumbotron" style="margin-top:30px;">
-    <h1>Sistema de Auditoría Interna</h1>
+    <h1>Sistema de Gestión de Viáticos</h1>
     <p class="lead">Bienvenido @User.Identity.Name </p>
     <p><a href="http://www.empresasadoc.com/es/inicio/" class="btn btn-lg" style="background-color:#FECA2B; color:#333333;">ADOC &raquo;</a></p>
 </div>

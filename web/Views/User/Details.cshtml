@@ -41,7 +41,46 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CodigoEmpleado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CodigoEmpleado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CentroCosto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CentroCosto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cargo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cargo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Departamento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Departamento.NombreDepartamento)
+        </dd>
+       
     </dl>
     <div class="col-md-12" style="text-align:center;">
         @Html.ActionLink("Editar", "Edit", new { id = Model.Id },new { @class="btn btn-danger"}) |

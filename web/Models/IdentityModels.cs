@@ -6,18 +6,31 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace web.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-
+        [Required(ErrorMessage = "El nombre es requerido.")]
         public string Nombres { get; set; }
-
+        [Required(ErrorMessage = "El apellido es requerido.")]
         public string Apellidos { get; set; }
-
+        [Display(Name ="Código de empleado"),Required(ErrorMessage = "El código del empleado es requerido.")]
+        public string CodigoEmpleado { get; set; }
+        [Display(Name ="Cargo/Jerarquía")]
+        public Cargo Cargo { get; set; }
+        [Required(ErrorMessage ="El centro de costos es requerido.")]
+        public string CentroCosto { get; set; }
+        [ForeignKey("Departamento"),Display(Name ="Dirección reporta")]
+        public int? IdDepartamento { get; set; }
         public bool Eliminado { get; set; }
+        [Display(Name = "Dirección reporta")]
+        public virtual Departamentos Departamento { get; set; }
+        [Display(Name ="Número de teléfono"), Required(ErrorMessage ="El número de teléfono es requerido.")]
+        override
+        public string PhoneNumber { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -63,6 +76,7 @@ namespace web.Models
         public DbSet<Accesos> Accesos { get; set; }
 
         public DbSet<Permisos> Permisos { get; set; }
+        public DbSet<Departamentos> Departamentos { get; set; }
 
     }
 }

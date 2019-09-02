@@ -7,10 +7,9 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI;
 using web.Models;
-using System.Web.Security;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Helpers;
 
 namespace web.Controllers
 {
@@ -45,6 +44,11 @@ namespace web.Controllers
             foreach (var role in RoleManager.Roles.Where(x=>x.Eliminado==false))
                 list.Add(new SelectListItem() { Value = role.Name, Text = role.Name });
             ViewBag.Roles = list;
+            List<SelectListItem> list2 = new List<SelectListItem>();
+            foreach (var role in db.Departamentos.Where(x => x.Eliminado == false))
+                list2.Add(new SelectListItem() { Value = role.idDepartamento.ToString(), Text = role.NombreDepartamento });
+            ViewBag.Roles = list;
+            ViewBag.Departamentos = list2;
             return View();
         }
         //Comentario 1
@@ -56,7 +60,9 @@ namespace web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Nombres = model.Nombres, Apellidos = model.Apellidos };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Nombres = model.Nombres,
+                                                Apellidos = model.Apellidos,CodigoEmpleado=model.CodigoEmpleado,Cargo=model.Cargo,IdDepartamento=model.IdDepartamento,
+                                                PhoneNumber=model.PhoneNumber,CentroCosto=model.CentroCosto};
                 model.Password = model.Password == null ? "Q1w2e3r4t%" : model.Password;
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -85,6 +91,10 @@ namespace web.Controllers
 
         public async Task<ActionResult> Edit(string id)
         {
+            List<SelectListItem> list2 = new List<SelectListItem>();
+            foreach (var dpto in db.Departamentos.Where(x => x.Eliminado == false))
+                list2.Add(new SelectListItem() { Value = dpto.idDepartamento.ToString(), Text = dpto.NombreDepartamento });
+            ViewBag.Departamentos = list2;
             var user = await UserManager.FindByIdAsync(id);
             return View(user);
         }
@@ -93,12 +103,50 @@ namespace web.Controllers
         public async Task<ActionResult> Edit(ApplicationUser model)
         {
             var user = await UserManager.FindByIdAsync(model.Id);
-            var role = new ApplicationUser() { Id = model.Id, Email = model.Email,Nombres=model.Nombres,Apellidos=model.Apellidos, UserName=model.UserName };
+            //var role = new ApplicationUser() { Id = model.Id, Email = model.Email,Nombres=model.Nombres,Apellidos=model.Apellidos, UserName=model.UserName };
             
             user.Nombres = model.Nombres;
             user.Apellidos = model.Apellidos;
             user.Email = model.Email;
-            var x = UserManager.Update(user);
+            user.PhoneNumber = model.PhoneNumber;
+            user.CodigoEmpleado = model.CodigoEmpleado;
+            user.CentroCosto = model.CentroCosto;
+            user.Cargo = model.Cargo;
+            user.IdDepartamento = model.IdDepartamento;
+            if (!ModelState.IsValid)
+            {
+                List<SelectListItem> list2 = new List<SelectListItem>();
+                foreach (var dpto in db.Departamentos.Where(z => z.Eliminado == false))
+                    list2.Add(new SelectListItem() { Value = dpto.idDepartamento.ToString(), Text = dpto.NombreDepartamento });
+                ViewBag.Departamentos = list2;
+                if(model.Nombres==null || model.Nombres.Equals(""))
+                    ModelState.AddModelError("", "El nombre es requerido.");
+                if(model.Apellidos==null || model.Apellidos.Equals(""))
+                    ModelState.AddModelError("", "El Apellido es requerido.");
+                if (model.Email == null || model.Email.Equals(""))
+                    ModelState.AddModelError("", "El email es requerido.");
+                if (model.PhoneNumber == null || model.PhoneNumber.Equals(""))
+                    ModelState.AddModelError("", "El teléfono es requerido.");
+                if (model.CodigoEmpleado == null || model.CodigoEmpleado.Equals(""))
+                    ModelState.AddModelError("", "El código de empleado es requerido.");
+                if (model.CentroCosto == null || model.CentroCosto.Equals(""))
+                    ModelState.AddModelError("", "El centro de costos es requerido.");
+                return View();
+            }
+                var x = UserManager.Update(user);
+            if (!x.Succeeded)
+            {
+                foreach (var error in x.Errors)
+                {
+                     ModelState.AddModelError("", error.Replace("is already taken", "ya existe").Replace("cannot be null or empty.", "no puede estar vacío."));
+                }
+                List<SelectListItem> list2 = new List<SelectListItem>(); 
+
+                foreach (var dpto in db.Departamentos.Where(z => z.Eliminado == false))
+                    list2.Add(new SelectListItem() { Value = dpto.idDepartamento.ToString(), Text = dpto.NombreDepartamento });
+                ViewBag.Departamentos = list2;
+                return View();
+            }
             return RedirectToAction("Index");
         }
 

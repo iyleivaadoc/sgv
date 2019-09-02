@@ -1,12 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Mail;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using web.Models;
 using static web.Controllers.ManageController;
 
 namespace web.Controllers
@@ -14,7 +18,19 @@ namespace web.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        public ActionResult Index(ManageMessageId? message)
+        ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+        public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.saludo = Resourses.Strings.saludo;
             ViewBag.StatusMessage =
@@ -22,6 +38,8 @@ namespace web.Controllers
                 : message == ManageMessageId.SetPasswordSuccess ? "Tu contraseña ha sido configurada."
                 : message == ManageMessageId.Error ? "Ocurrió un error."
                 : "";
+
+            ViewBag.usuario = await UserManager.FindByIdAsync(this.GetUserId(User));
             return View();
         }
 
@@ -46,6 +64,12 @@ namespace web.Controllers
             smtp.Send(mail);
             return View("Index");
 
+        }
+        public string GetUserId(IPrincipal principal)
+        {
+            var claimsIdentity = (ClaimsIdentity)principal.Identity;
+            var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            return claim.Value;
         }
     }
 }

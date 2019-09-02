@@ -15,27 +15,58 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
         <div class="form-group">
-            <label class="col-md-2 control-label" for="UserName">Usuario</label>
-            <div class="col-md-10">
+            <label class="col-md-4 control-label" for="UserName">Usuario</label>
+            <div class="col-md-8">
                 @Html.TextBoxFor(m => m.UserName, new { @readonly = "readonly", @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.Nombres, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
+            @Html.LabelFor(m => m.Nombres, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
                 @Html.TextBoxFor(m => m.Nombres, new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.Apellidos, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
+            @Html.LabelFor(m => m.Apellidos, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
                 @Html.TextBoxFor(m => m.Apellidos, new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.CodigoEmpleado, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.CodigoEmpleado, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.CentroCosto, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.CentroCosto, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Cargo, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.EnumDropDownListFor(model => model.Cargo, htmlAttributes: new { @class = "form-control" })
+                @*@Html.TextBoxFor(m => m.IdCargo, new { @class = "form-control" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.IdDepartamento, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(m => m.IdDepartamento, new SelectList(ViewBag.Departamentos, "value", "Text"), new { @class = "form-control" })
             </div>
         </div>
        
