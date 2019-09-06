@@ -207,13 +207,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909061627542_migracion.cs" />
-    <Compile Include="Migrations\201909061627542_migracion.Designer.cs">
-      <DependentUpon>201909061627542_migracion.cs</DependentUpon>
+    <Compile Include="Migrations\201909062127252_pais.cs" />
+    <Compile Include="Migrations\201909062127252_pais.Designer.cs">
+      <DependentUpon>201909062127252_pais.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accesos.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Paises.cs" />
     <Compile Include="Models\Departamentos.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Permisos.cs" />
@@ -252,8 +253,8 @@
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EmbeddedResource Include="Migrations\201909061627542_migracion.resx">
-      <DependentUpon>201909061627542_migracion.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909062127252_pais.resx">
+      <DependentUpon>201909062127252_pais.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resourses\Strings.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>

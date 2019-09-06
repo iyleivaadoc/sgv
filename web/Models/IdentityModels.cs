@@ -25,9 +25,12 @@ namespace web.Models
         public string CentroCosto { get; set; }
         [ForeignKey("Departamento"), Display(Name = "Dirección reporta")]
         public int? IdDepartamento { get; set; }
+        [ForeignKey("Pais"), Display(Name ="País")]
+        public int? IdPais { get; set; }
         public bool Eliminado { get; set; }
         [Display(Name = "Dirección reporta")]
         public virtual Departamentos Departamento { get; set; }
+        public virtual Paises Pais { get; set; }
         [Display(Name = "Número de teléfono"), Required(ErrorMessage = "El número de teléfono es requerido.")]
         override
         public string PhoneNumber
@@ -83,9 +86,9 @@ namespace web.Models
 
         public DbSet<Persona> Persona { get; set; }
         public DbSet<Accesos> Accesos { get; set; }
-
         public DbSet<Permisos> Permisos { get; set; }
         public DbSet<Departamentos> Departamentos { get; set; }
+        public DbSet<Paises> Paises { get; set; }
 
     }
 }
