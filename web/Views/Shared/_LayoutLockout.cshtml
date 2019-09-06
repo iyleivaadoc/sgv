@@ -1,0 +1,79 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - SGV</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/Home/Index">
+                    <img src="~/favicon.ico" style="margin-top: 10px;" alt="ADOC"/>
+                </a>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        @*<hr />
+            <footer style="text-align:center">
+                <p>&copy; @DateTime.Now.Year -ADOC</p>
+            </footer>*@
+    </div>
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script>
+        $(document).ready(function () {
+
+            $('.navbar .dropdown-item').on('click', function (e) {
+                var $el = $(this).children('.dropdown-toggle');
+                var $parent = $el.offsetParent(".dropdown-menu");
+                $(this).parent("li").toggleClass('open');
+
+                if (!$parent.parent().hasClass('navbar-nav')) {
+                    if ($parent.hasClass('show')) {
+                        $parent.removeClass('show');
+                        $el.next().removeClass('show');
+                        $el.next().css({ "top": -999, "left": -999 });
+                    } else {
+                        $parent.parent().find('.show').removeClass('show');
+                        $parent.addClass('show');
+                        $el.next().addClass('show');
+                        $el.next().css({ "top": $el[0].offsetTop, "left": $parent.outerWidth() - 4 });
+                    }
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+
+            $('.navbar .dropdown').on('hidden.bs.dropdown', function () {
+                $(this).find('li.dropdown').removeClass('show open');
+                $(this).find('ul.dropdown-menu').removeClass('show open');
+            });
+
+        });
+
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

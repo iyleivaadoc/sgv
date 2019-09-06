@@ -17,20 +17,29 @@ namespace web.Models
         public string Nombres { get; set; }
         [Required(ErrorMessage = "El apellido es requerido.")]
         public string Apellidos { get; set; }
-        [Display(Name ="Código de empleado"),Required(ErrorMessage = "El código del empleado es requerido.")]
+        [Display(Name = "Código de empleado"), Required(ErrorMessage = "El código del empleado es requerido.")]
         public string CodigoEmpleado { get; set; }
-        [Display(Name ="Cargo/Jerarquía")]
+        [Display(Name = "Cargo/Jerarquía")]
         public Cargo Cargo { get; set; }
-        [Required(ErrorMessage ="El centro de costos es requerido.")]
+        [Required(ErrorMessage = "El centro de costos es requerido.")]
         public string CentroCosto { get; set; }
-        [ForeignKey("Departamento"),Display(Name ="Dirección reporta")]
+        [ForeignKey("Departamento"), Display(Name = "Dirección reporta")]
         public int? IdDepartamento { get; set; }
         public bool Eliminado { get; set; }
         [Display(Name = "Dirección reporta")]
         public virtual Departamentos Departamento { get; set; }
-        [Display(Name ="Número de teléfono"), Required(ErrorMessage ="El número de teléfono es requerido.")]
+        [Display(Name = "Número de teléfono"), Required(ErrorMessage = "El número de teléfono es requerido.")]
         override
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber
+        { get; set; }
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return Nombres + " " + Apellidos;
+            }
+        }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -54,9 +63,9 @@ namespace web.Models
         public string UsuarioCrea { get; set; }
         public string UsuarioModifica { get; set; }
         public DateTime FechaCrea { get; set; }
-        
+
         public DateTime FechaModifica { get; set; }
-        public ApplicationRole() : base(){ }
+        public ApplicationRole() : base() { }
         public ApplicationRole(string roleName) : base(roleName) { }
     }
 

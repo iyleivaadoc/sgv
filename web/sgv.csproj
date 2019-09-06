@@ -207,21 +207,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909021353120_mig.cs" />
-    <Compile Include="Migrations\201909021353120_mig.Designer.cs">
-      <DependentUpon>201909021353120_mig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909021607334_usuar.cs" />
-    <Compile Include="Migrations\201909021607334_usuar.Designer.cs">
-      <DependentUpon>201909021607334_usuar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909021712316_usuar2.cs" />
-    <Compile Include="Migrations\201909021712316_usuar2.Designer.cs">
-      <DependentUpon>201909021712316_usuar2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909022207446_usuar3.cs" />
-    <Compile Include="Migrations\201909022207446_usuar3.Designer.cs">
-      <DependentUpon>201909022207446_usuar3.cs</DependentUpon>
+    <Compile Include="Migrations\201909061627542_migracion.cs" />
+    <Compile Include="Migrations\201909061627542_migracion.Designer.cs">
+      <DependentUpon>201909061627542_migracion.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accesos.cs" />
@@ -264,23 +252,15 @@
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EmbeddedResource Include="Migrations\201909021353120_mig.resx">
-      <DependentUpon>201909021353120_mig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909021607334_usuar.resx">
-      <DependentUpon>201909021607334_usuar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909021712316_usuar2.resx">
-      <DependentUpon>201909021712316_usuar2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909022207446_usuar3.resx">
-      <DependentUpon>201909022207446_usuar3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909061627542_migracion.resx">
+      <DependentUpon>201909061627542_migracion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resourses\Strings.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.en.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Content Include="Content\bloqueo.png" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -352,6 +332,7 @@
     <Content Include="Views\Accesos\Index.cshtml" />
     <Content Include="Views\Role\AsignarAccesos.cshtml" />
     <Content Include="Views\User\AsignarRoles.cshtml" />
+    <Content Include="Views\Shared\_LayoutLockout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

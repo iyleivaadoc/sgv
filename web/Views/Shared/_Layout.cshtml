@@ -43,19 +43,25 @@
                         </li>
                     }
                     @{ var listMenu = (List<web.ViewModels.menuItemVM>)Session["menuPrincipal"];
-                        foreach (var item in listMenu.OrderBy(a => a.Tipo))
+                        if (listMenu == null)
                         {
-                            if (item.Tipo)
+                            Response.Redirect("/");
+                        }
+                        else
+                        {
+                            foreach (var item in listMenu.OrderBy(a => a.Tipo))
                             {
+                                if (item.Tipo)
+                                {
                                 <li class="nav-link dropdown-toggle">
                                     <a class="nav-link dropdown-toggle" href="/@item.Control/@item.Metodo">
                                         @item.Nombre
                                         <span style="font-size:24px;" class="pull-right showopacity fa aria-hidden="true"></span>
                                     </a>
                                 </li>
-                            }
-                            else
-                            {
+                                }
+                                else
+                                {
                                 <li class="nav-item dropdown">
                                     <a id="dropdown1" @item.Nombre data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@item.Nombre</a>
                                     <ul class="dropdown-menu" aria-labelledby="dropdown1">
@@ -70,9 +76,10 @@
                                         }
                                     </ul>
                                 </li>
+                                    }
+                                }
                             }
                         }
-                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
