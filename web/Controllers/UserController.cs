@@ -47,8 +47,13 @@ namespace web.Controllers
             List<SelectListItem> list2 = new List<SelectListItem>();
             foreach (var role in db.Departamentos.Where(x => x.Eliminado == false))
                 list2.Add(new SelectListItem() { Value = role.idDepartamento.ToString(), Text = role.NombreDepartamento });
+            List<SelectListItem> paises = new List<SelectListItem>();
+            foreach (var pais in db.Paises)
+                paises.Add(new SelectListItem() { Value = pais.IdPais.ToString(), Text = pais.Pais });
             ViewBag.Roles = list;
             ViewBag.Departamentos = list2;
+            ViewBag.paises = paises;
+
             return View();
         }
         //Comentario 1
@@ -62,7 +67,7 @@ namespace web.Controllers
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Nombres = model.Nombres,
                                                 Apellidos = model.Apellidos,CodigoEmpleado=model.CodigoEmpleado,Cargo=model.Cargo,IdDepartamento=model.IdDepartamento,
-                                                PhoneNumber=model.PhoneNumber,CentroCosto=model.CentroCosto};
+                                                PhoneNumber=model.PhoneNumber,CentroCosto=model.CentroCosto,IdPais=model.IdPais};
                 model.Password = model.Password == null ? "Q1w2e3r4t%" : model.Password;
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -82,6 +87,14 @@ namespace web.Controllers
                 foreach (var role in RoleManager.Roles.Where(r=>r.Eliminado==false))
                     list.Add(new SelectListItem() { Value = role.Name, Text = role.Name });
                 ViewBag.Roles = list;
+                List<SelectListItem> paises = new List<SelectListItem>();
+                foreach (var pais in db.Paises)
+                    paises.Add(new SelectListItem() { Value = pais.IdPais.ToString(), Text = pais.Pais });
+                ViewBag.paises = paises;
+                List<SelectListItem> list2 = new List<SelectListItem>();
+                foreach (var role in db.Departamentos.Where(x => x.Eliminado == false))
+                    list2.Add(new SelectListItem() { Value = role.idDepartamento.ToString(), Text = role.NombreDepartamento });
+                ViewBag.Departamentos = list2;
                 AddErrors(result);
             }
 

@@ -1,0 +1,88 @@
+﻿@model web.Models.Viajes
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Viajes</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Viaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Viaje)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescripcionViaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescripcionViaje)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdPaisOrigen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Origen.Pais)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdPaisDestino)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Destino.Pais)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaInicio)
+        </dt>
+
+        <dd>
+            @Html.EditorFor(modelItem => Model.FechaInicio, new { htmlAttributes = new { @class = "editFechaToDisplay", @disabled = "disabled", @style = "" } })
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaFin)
+        </dt>
+
+        <dd>
+            @Html.EditorFor(modelItem => Model.FechaFin, new { htmlAttributes = new { @class = "editFechaToDisplay", @disabled = "disabled", @style = "" } })
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ViaViaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ViaViaje)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClasificacionViaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClasificacionViaje)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

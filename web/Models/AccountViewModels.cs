@@ -72,7 +72,6 @@ namespace web.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
-
         [Display(Name = "User Name")]
         [Required(ErrorMessage ="El usuario es requerido.")]
         public string UserName { get; set; }
@@ -102,6 +101,8 @@ namespace web.Models
         public int IdDepartamento { get; set; }
         [Display(Name ="Centro de costos asociado"), Required(ErrorMessage = "El centro de costos es requerido.")]
         public string CentroCosto { get; set; }
+        [Display(Name ="País labora")]
+        public int IdPais { get; set; }
     }
 
     public class ResetPasswordViewModel

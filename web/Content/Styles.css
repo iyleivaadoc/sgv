@@ -9,8 +9,8 @@
 }
 
 .navbar-inverse {
-    background-color: #03a9f494;
-    border-color: #03a9f494;
+    background-color: #03a9f4;
+    border-color: #03a9f4;
 }
 
     .navbar-inverse .navbar-nav > li > a {
@@ -18,7 +18,7 @@
     }
 
     .navbar-inverse .navbar-toggle {
-        border-color: #feca2b;
+        border-color: #03a9f4;
     }
 
 
@@ -55,13 +55,13 @@
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
     color: #333333;
     text-decoration: none;
-    background-color: #03a9f494;
+    background-color: #03a9f4;
 }
 
 
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
     color: #ffffff;
-    background-color: #03a9f494;
+    background-color: #03a9f4;
 }
 
 @media (max-width: 767px) {
@@ -73,6 +73,18 @@
 @media (max-width: 767px) {
     .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
         color: #ffffff;
-        background-color: #FECA2B;
+        background-color: #03a9f4;
     }
+}
+.editFechaToDisplay {
+    background-color: transparent;
+    border: none;
+    color: black;
+}
+
+.navbar-inverse .navbar-toggle {
+    border-color: #03a9f4;
+}
+.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+    background-color: #03a9f4;
 }

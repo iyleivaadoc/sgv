@@ -17,4 +17,31 @@ namespace web.Models
         [Description("Jefe")]
         Jefe =3
     }
+
+    public enum ViasViaje
+    {
+        [Description("Terrestre")]
+        Terrestre=1,
+        [Description("Aéreo")]
+        Aereo=2
+    }
+
+    public enum Estado
+    {
+        [Description("Creado")]
+        Creado =1,
+        [Description("Terminado")]
+        Terminado =2,
+        [Description("Bloqueado")]
+        Bloqueado =3,
+        [Description("Eliminado")]
+        Eliminado =4
+    }
+
+    public enum ClasificacionViaje {
+        [Description("Interior")]
+        Interior =1,
+        [Description("Exterior")]
+        Exterior =2
+    }
 }

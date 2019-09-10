@@ -89,6 +89,7 @@ namespace web.Models
         public DbSet<Permisos> Permisos { get; set; }
         public DbSet<Departamentos> Departamentos { get; set; }
         public DbSet<Paises> Paises { get; set; }
+        public DbSet<Viajes> Viajes { get; set; }
 
     }
 }

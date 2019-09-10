@@ -1,0 +1,81 @@
+﻿@model web.Models.Viajes
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Viajes</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Viaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Viaje)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescripcionViaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescripcionViaje)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdPaisOrigen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Origen.Pais)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdPaisDestino)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Destino.Pais)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaInicio)
+        </dt>
+
+        <dd>
+            @Html.EditorFor(modelItem => Model.FechaInicio, new { htmlAttributes = new { @class = "editFechaToDisplay", @disabled = "disabled", @style = "" } })
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaFin)
+        </dt>
+
+        <dd>
+            @Html.EditorFor(modelItem => Model.FechaFin, new { htmlAttributes = new { @class = "editFechaToDisplay", @disabled = "disabled", @style = "" } })
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ViaViaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ViaViaje)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClasificacionViaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClasificacionViaje)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdViaje }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
