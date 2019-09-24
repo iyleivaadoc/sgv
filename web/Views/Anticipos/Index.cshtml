@@ -1,0 +1,160 @@
+﻿@model web.Models.Anticipos
+
+@{
+    ViewBag.Title = "ANTICIPO";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("Edit", "Anticipos", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div id="blockear">
+        @Html.Raw(Session["MyAlert"])
+        @{ Session["MyAlert"] = null;}
+        <h3>@Model.Viaje.Viaje</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12 well well-sm" style="margin-bottom:-1px;">
+                    <label>1. DATOS GENERALES DEL SOLICITANTE</label>
+                </div>
+                @{ var usuario = ViewBag.usuario;}
+                <table class="table table-striped table-bordered">
+                    <tbody>
+                        <tr>
+                            <td style="padding: 0px;padding-left: 10px;">Nombre completo del solicitante</td>
+                            <td style="padding: 0px;padding-left: 10px;">@usuario.FullName</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;padding-left: 10px;">Cargo laboral</td>
+                            <td style="padding: 0px;padding-left: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;padding-left: 10px;">Jerarquía</td>
+                            <td style="padding: 0px;padding-left: 10px;">@usuario.Cargo</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;padding-left: 10px;">País en el que labora</td>
+                            <td style="padding: 0px;padding-left: 10px;">@usuario.Pais.Pais</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;padding-left: 10px;">Dirección a la que reporta</td>
+                            <td style="padding: 0px;padding-left: 10px;">@usuario.Departamento.NombreDepartamento</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;padding-left: 10px;">Código de empleado</td>
+                            <td style="padding: 0px;padding-left: 10px;">@usuario.CodigoEmpleado </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;padding-left: 10px;">Correo electrónico</td>
+                            <td style="padding: 0px;padding-left: 10px;">@usuario.Email</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0px;padding-left: 10px;">Teléfono</td>
+                            <td style="padding: 0px;padding-left: 10px;">@usuario.PhoneNumber</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            @Html.HiddenFor(m => m.IdAnticipo)
+            <div class="col-md-12">
+                <div class="col-md-12 well well-sm" style="margin-bottom:-1px;">
+                    <label>2. DATOS DEL VIAJE</label>
+                </div>
+                <table class="table table-striped table-bordered">
+                    <tr>
+                        <td style="padding: 0px;padding-left: 10px;">PAÍS</td>
+                        <td style="padding: 0px;padding-left: 10px;">De: @Model.Viaje.Origen.Pais</td>
+                        <td style="padding: 0px;padding-left: 10px;" colspan="2">Hacia: @Model.Viaje.Destino.Pais</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0px;padding-left: 10px;">CLASIFICACIÓN DEL VIAJE</td>
+                        <td style="padding: 0px;padding-left: 10px;" colspan="3">@Model.Viaje.ClasificacionViaje</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0px;padding-left: 10px;">VÍA</td>
+                        <td style="padding: 0px;padding-left: 10px;" colspan="3">@Model.Viaje.ViaViaje</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0px;padding-left: 10px;">PERÍODO DE VIAJE</td>
+                        <td style="padding: 0px;padding-left: 10px;">Desde: @Model.Viaje.FechaInicio.ToShortDateString()</td>
+                        <td style="padding: 0px;padding-left: 10px;">Hasta: @Model.Viaje.FechaFin.ToShortDateString()</td>
+                        <td style="padding: 0px;padding-left: 10px;">Días: @Model.Viaje.Duracion</td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+
+                <table class="table table-striped table-bordered">
+                    <tr>
+                        <th style="background-color:gray; color:black;">% DE ANTICIPO</th>
+                        <td style="text-align:right; border-top:none; border-right: none;">
+                            @Html.DropDownListFor(m => Model.Porcentaje, null, new { @class = "form-control" })
+                        </td>
+                        <td style="border-left: none; width: 5%;"></td>
+                    </tr>
+                    <tr>
+                        <th style="background-color:white; border:none;"> </th>
+                        <td style="background-color:white; border:none;"> </td>
+                    </tr>
+                    <tr>
+                        <th style="padding: 0px; padding-left: 8px;">EL TOTAL DE VIÁTICOS ASIGNADOS AL VIAJE ES</th>
+                        <td style="padding: 0px; text-align:right; width: 15%; padding-right: 8px;">@Model.TotalAsignado</td>
+                        <td></td>
+                    </tr>
+
+                    @{ foreach (var item in Model.ConceptosAdicionales.Where(c => c.Eliminado != true))
+                        {
+                            <tr>
+                                <th style="padding: 0px; padding-left: 8px; vertical-align: middle;">@item.Concepto</th>
+                                <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.Monto</td>
+                                <td style="padding: 0px; padding-bottom:5px; text-align:center; ">
+                                    @if (Model.IdEstado == web.Models.Estado.Creado)
+                                    {
+                                        @Html.ActionLink(" ", "Delete", "ConceptosAdicionales", new { id = item.IdConceptoAdicional, idViaje = Model.IdViaje }, new { @class = "btn btn-danger btn-xs glyphicon glyphicon-minus", @title = "Eliminar gasto" })
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    <tr>
+                        <th style="padding: 0px; background-color:gray; color:black; padding-left: 8px;">TOTAL ASIGNADO AL VIAJE</th>
+                        <td style="padding: 0px; text-align:right; background-color:gray; color:black; padding-right: 8px;">@Model.TotalViaje</td>
+                        <td style="background-color:gray; color:black;"></td>
+                    </tr>
+                    <tr>
+                        <th style="background-color:white; border:none;"> </th>
+                        <td style="background-color:white; border:none;"> </td>
+                    </tr>
+                    <tr>
+                        <th style="padding: 0px; background-color:gray; color:black; padding-left: 8px;">EL TOTAL A ANTICIPAR ES</th>
+                        <td style="padding: 0px; text-align:right; background-color:gray; color:black; padding-right: 8px;">@Model.TotalAnticipar</td>
+                        <td style="background-color:gray; color:black;"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-2">
+                @if (Model.IdEstado == web.Models.Estado.Creado)
+                {
+                    @Html.ActionLink(" ", "Create", "ConceptosAdicionales", new { idAnticipo = Model.IdAnticipo, idViaje = Model.IdViaje }, new { @class = "btn btn-success btn-group-justified glyphicon glyphicon-plus", @title = "Agregar gasto" })
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row" style="text-align:center;">
+        @if (Model.IdEstado != web.Models.Estado.Creado)
+        {
+            @Html.ActionLink("Regresar", "Gestionar", "Viajes", new { id = Model.IdViaje }, new { @class = "btn btn-info", @title = "Atrás", @style = "margin-right: 4px;" })
+        }
+        @if (Model.IdEstado == web.Models.Estado.Creado)
+        {
+            @Html.ActionLink("Regresar", "Gestionar", "Viajes", new { id = Model.IdViaje }, new { @class = "btn btn-warning", @title = "Atrás", @style = "margin-right: 4px;" })
+            <input type="submit" value="Guardar" class="btn btn-info" title="Guardar cambios" />
+            @Html.ActionLink("Terminar y enviar", "Enviar", "Anticipos", new { id = Model.IdAnticipo, idViaje = Model.IdViaje }, new { @class = "btn btn-success", @title = "Enviar para aprobación", @style = "margin-right: 4px;" })
+            @Html.ActionLink("Eliminar", "Delete", new { id = Model.IdAnticipo }, new { @class = "btn btn-danger", @title = "Esto eliminará la solicitud de anticipo" })
+        }
+    </div>
+  }

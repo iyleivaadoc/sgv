@@ -1,0 +1,207 @@
+﻿@model web.Models.LiquidacionesViaje
+
+@{
+    ViewBag.Title = "Liquidación";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Raw(Session["MyAlert"])
+@{ Session["MyAlert"] = null;}
+<h3>@Model.Viaje.Viaje</h3>
+@using (Html.BeginForm("Edit", "LiquidacionesViajes", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.IdLiquidacionViaje)
+    @Html.HiddenFor(model => model.IdEstado)
+    @Html.HiddenFor(model => model.UsuarioCrea)
+    @Html.HiddenFor(model => model.UsuarioMod)
+    @Html.HiddenFor(model => model.FechaCrea)
+    @Html.HiddenFor(model => model.FechaMod)
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 well well-sm" style="margin-bottom:-1px;">
+                <label>1. DATOS GENERALES DEL SOLICITANTE</label>
+            </div>
+            @{ var usuario = Model.Viaje.Usuario;}
+            <table class="table table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <td style="padding: 0px;padding-left: 10px;">Nombre completo del solicitante</td>
+                        <td style="padding: 0px;padding-left: 10px;">@usuario.FullName</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0px;padding-left: 10px;">Cargo laboral</td>
+                        <td style="padding: 0px;padding-left: 10px;"></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0px;padding-left: 10px;">Jerarquía</td>
+                        <td style="padding: 0px;padding-left: 10px;">@usuario.Cargo</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0px;padding-left: 10px;">País en el que labora</td>
+                        <td style="padding: 0px;padding-left: 10px;">@usuario.Pais.Pais</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0px;padding-left: 10px;">Dirección a la que reporta</td>
+                        <td style="padding: 0px;padding-left: 10px;">@usuario.Departamento.NombreDepartamento</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0px;padding-left: 10px;">Código de empleado</td>
+                        <td style="padding: 0px;padding-left: 10px;">@usuario.CodigoEmpleado </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0px;padding-left: 10px;">Correo electrónico</td>
+                        <td style="padding: 0px;padding-left: 10px;">@usuario.Email</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0px;padding-left: 10px;">Teléfono</td>
+                        <td style="padding: 0px;padding-left: 10px;">@usuario.PhoneNumber</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        @Html.HiddenFor(m => m.IdLiquidacionViaje)
+        <div class="col-md-12">
+            <div class="col-md-12 well well-sm" style="margin-bottom:-1px;">
+                <label>2. DATOS DEL VIAJE</label>
+            </div>
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <td style="padding: 0px;padding-left: 10px;">PAÍS</td>
+                    <td style="padding: 0px;padding-left: 10px;">De: @Model.Viaje.Origen.Pais</td>
+                    <td style="padding: 0px;padding-left: 10px;" colspan="2">Hacia: @Model.Viaje.Destino.Pais</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0px;padding-left: 10px;">CLASIFICACIÓN DEL VIAJE</td>
+                    <td style="padding: 0px;padding-left: 10px;" colspan="3">@Model.Viaje.ClasificacionViaje</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0px;padding-left: 10px;">VÍA</td>
+                    <td style="padding: 0px;padding-left: 10px;" colspan="3">@Model.Viaje.ViaViaje</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0px;padding-left: 10px;">PERÍODO DE VIAJE</td>
+                    <td style="padding: 0px;padding-left: 10px;">Desde: @Model.Viaje.FechaInicio.ToShortDateString()</td>
+                    <td style="padding: 0px;padding-left: 10px;">Hasta: @Model.Viaje.FechaFin.ToShortDateString()</td>
+                    <td style="padding: 0px;padding-left: 10px;">Días: @Model.Viaje.Duracion</td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-11">
+            <div class="col-md-12 well well-sm" style="margin-bottom:-1px;">
+                <label>3. LIQUIDACIÓN DE GASOS</label>
+            </div>
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th style="background-color:gray; color:black; vertical-align:middle;">MONEDA DE LIQUIDACION</th>
+                    <th colspan="2" style="background-color:white;">@Html.DropDownList("IdMoneda", null, htmlAttributes: new { @class = "form-control" })</th>
+                    <th colspan="2" style="background-color:gray; color:black; vertical-align:middle;">TIPO DE CAMBIO</th>
+                    <th colspan="2" style="background-color:white;text-align:center;">@Html.EditorFor(model => model.TasaCambio, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = "0.01" } })</th>
+                    @*<th style="background-color:white; border-left-color:white;"></th>*@
+                </tr>
+                <tr>
+                    <th style="vertical-align:middle">FECHA DEL GASTO</th>
+                    <th style="vertical-align:middle">MONTO</th>
+                    <th style="vertical-align:middle">CENTRO DE COSTO</th>
+                    <th style="vertical-align:middle">CUENTA DEL GASTO</th>
+                    <th style="vertical-align:middle; max-width: 200px;">COMENTARIOS DEL SOLICITANTE</th>
+                    <th style="vertical-align:middle; max-width: 200px;">COMENTARIOS DE LOS APROBADORES</th>
+                    <th></th>
+                </tr>
+                @{ foreach (var item in Model.DetallesLiquidacion.Where(c => c.Eliminado != true))
+                {
+            <tr>
+                <th style="padding: 0px; padding-left: 8px; vertical-align: middle;">@item.FechaGasto.ToShortDateString()</th>
+                <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.Monto</td>
+                <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.CentroCosto</td>
+                <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.CuentaGasto</td>
+                <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.ComentariosSolicitante</td>
+                <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.ComentariosAprobador</td>
+                <td style="padding: 0px; padding-bottom:5px; text-align:center; ">
+                    @if (Model.IdEstado == web.Models.Estado.Creado)
+                            {
+                            @Html.ActionLink(" ", "Edit", "DetallesLiquidacions", new { id = item.IdDetalleLiquidacion, idViaje = Model.IdViaje }, new { @class = "btn btn-warning btn-xs glyphicon glyphicon-pencil", @title = "Editar gasto" })
+                            @Html.ActionLink(" ", "Delete", "DetallesLiquidacions", new { id = item.IdDetalleLiquidacion, idViaje = Model.IdViaje }, new { @class = "btn btn-danger btn-xs glyphicon glyphicon-minus", @title = "Eliminar gasto", @style = "margin-left: 5px;" })
+                            }
+                </td>
+            </tr>
+                }
+                }
+                <tr><td colspan="5" style="margin-top:8px; background-color:white; border-right-color:white;border-left-color:white;"></td></tr>
+                <tr>
+                    <th colspan="3" style="background-color:gray; color:black;">TOTAL LIQUIDACION (ȼ) ($)</th>
+                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@Html.DisplayFor(model => Model.TotalAsignado, new { @DataFormatString = "{0:N}" })</th>
+                    @{var ta = Math.Round((Model.TotalAsignado / Model.TasaCambio), 2);}
+                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">
+                        @Html.DisplayFor(model => ta)
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="3" style="background-color:gray; color:black;">TOTAL ANTICIPO OTORGADO (ȼ) ($)</th>
+                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@Model.TotalAnticipo</th>
+                    @{ var tan = Math.Round((Model.TotalAnticipo / Model.TasaCambio), 2);}
+                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@tan</th>
+                </tr>
+                <tr>
+                    <th colspan="3" style="background-color:gray; color:black;">DIFERENCIA (ȼ) ($)</th>
+                    @{var dif = Model.TotalAnticipo - Model.TotalAsignado; }
+                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@dif</th>
+                    @{ var dif2 = Math.Round((dif / Model.TasaCambio), 2);}
+                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@dif2</th>
+                </tr>
+            </table>
+            <div class="text-center text-muted" style="font-size: 10px;">
+                <p>
+                    1.Si el resultado es positivo, debes devolver a la empresa la diferencia. <br />
+                    2.Si el resultado es negativo, se pasará a aprovación para hacer el reintegro al empleado.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-1" style="padding-left:0px;">
+            @if (Model.IdEstado == web.Models.Estado.Creado)
+        {
+        @Html.ActionLink(" ", "Create", "DetallesLiquidacions", new { idLiquidacionViaje = Model.IdLiquidacionViaje, idViaje = Model.IdViaje }, new { @class = "btn btn-success btn-group-justified glyphicon glyphicon-plus", @title = "Agregar gasto" })
+        }
+        </div>
+
+    </div>
+
+    <div class="text-center row">
+        @if (Model.IdEstado != web.Models.Estado.Creado)
+        {
+            @Html.ActionLink("Regresar", "Gestionar", "Viajes", new { id = Model.IdViaje }, new { @class = "btn btn-info", @title = "Atrás", @style = "margin-right: 4px;" })
+        }
+        @if (Model.IdEstado == web.Models.Estado.Creado)
+        {
+            @Html.ActionLink("Regresar", "Gestionar", "Viajes", new { id = Model.IdViaje }, new { @class = "btn btn-warning", @title = "Atrás", @style = "margin-right: 4px;" })
+            <input type="submit" value="Guardar" class="btn btn-info" title="Guardar cambios" />
+            @Html.ActionLink("Terminar y enviar", "Enviar", "LiquidacionesViajes", new { id = Model.IdLiquidacionViaje, idViaje = Model.IdViaje }, new { @class = "btn btn-success", @title = "Enviar para aprobación", @style = "margin-right: 4px;" })
+            @Html.ActionLink("Eliminar", "Delete", new { id = Model.IdLiquidacionViaje }, new { @class = "btn btn-danger", @title = "Esto eliminará la solicitud de liquidación" })
+        }
+    </div>
+                        }
+<div class="text-center text-muted row" style="font-size: 13px; margin-top: 30px;">
+    <p style="border: #03A9F4;border-style: dashed; padding: 5px;">
+        NOTA: Al terminar la liquidación debes presentar al área de créditos y cobros todos los comprobantes de gastos asociados a tu liquidación y la remesa (si aplica).
+    </p>
+</div>
+
+<script>
+    $("#IdMoneda").on("change", function () {
+        urlget = "MonedaCambio?idMoneda=" + $("#IdMoneda").get(0).value;
+        $.ajax({
+            url: urlget,
+            error: function (data) {
+                alertify.error("Error al comunicarse con el servidor...")
+            }
+        }).then(function (data) {
+            $("#TasaCambio").get(0).value = data;
+        });
+
+    })
+</script>

@@ -13,5 +13,6 @@ namespace web.Models
         public int IdPais { get; set; }
         [Display(Name ="País"),Required(ErrorMessage ="Deebe ingresar el nombre del país.")]
         public string Pais { get; set; }
+        public ICollection<Moneda> Moneda { get; set; }
     }
 }

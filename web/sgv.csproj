@@ -207,8 +207,12 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccesosController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AnticiposController.cs" />
     <Compile Include="Controllers\CalendarioController.cs" />
+    <Compile Include="Controllers\ConceptosAdicionalesController.cs" />
+    <Compile Include="Controllers\DetallesLiquidacionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LiquidacionesViajesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OwnController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
@@ -237,15 +241,39 @@
     <Compile Include="Migrations\201909102023035_prueba21.Designer.cs">
       <DependentUpon>201909102023035_prueba21.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909131441159_liquidacion.cs" />
+    <Compile Include="Migrations\201909131441159_liquidacion.Designer.cs">
+      <DependentUpon>201909131441159_liquidacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909131459139_liquidacion-persona.cs" />
+    <Compile Include="Migrations\201909131459139_liquidacion-persona.Designer.cs">
+      <DependentUpon>201909131459139_liquidacion-persona.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909171950019_cambiotital.cs" />
+    <Compile Include="Migrations\201909171950019_cambiotital.Designer.cs">
+      <DependentUpon>201909171950019_cambiotital.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909232102393_moneda.cs" />
+    <Compile Include="Migrations\201909232102393_moneda.Designer.cs">
+      <DependentUpon>201909232102393_moneda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909232108335_moneda1.cs" />
+    <Compile Include="Migrations\201909232108335_moneda1.Designer.cs">
+      <DependentUpon>201909232108335_moneda1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accesos.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Anticipos.cs" />
+    <Compile Include="Models\ConceptosAdicionales.cs" />
+    <Compile Include="Models\DetallesLiquidacion.cs" />
     <Compile Include="Models\HuellaAuditoria.cs" />
+    <Compile Include="Models\LiquidacionesViaje.cs" />
+    <Compile Include="Models\Moneda.cs" />
     <Compile Include="Models\Paises.cs" />
     <Compile Include="Models\Departamentos.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Permisos.cs" />
-    <Compile Include="Models\Persona.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
@@ -267,11 +295,31 @@
     <Compile Include="ViewModels\RolesUsuarioVM.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\alerts\alertify.js" />
+    <Content Include="Content\alerts\alertify.min.js" />
+    <Content Include="Content\alerts\css\alertify.css" />
+    <Content Include="Content\alerts\css\alertify.min.css" />
+    <Content Include="Content\alerts\css\alertify.rtl.css" />
+    <Content Include="Content\alerts\css\alertify.rtl.min.css" />
+    <Content Include="Content\alerts\css\themes\bootstrap.css" />
+    <Content Include="Content\alerts\css\themes\bootstrap.min.css" />
+    <Content Include="Content\alerts\css\themes\bootstrap.rtl.css" />
+    <Content Include="Content\alerts\css\themes\bootstrap.rtl.min.css" />
+    <Content Include="Content\alerts\css\themes\default.css" />
+    <Content Include="Content\alerts\css\themes\default.min.css" />
+    <Content Include="Content\alerts\css\themes\default.rtl.css" />
+    <Content Include="Content\alerts\css\themes\default.rtl.min.css" />
+    <Content Include="Content\alerts\css\themes\semantic.css" />
+    <Content Include="Content\alerts\css\themes\semantic.min.css" />
+    <Content Include="Content\alerts\css\themes\semantic.rtl.css" />
+    <Content Include="Content\alerts\css\themes\semantic.rtl.min.css" />
+    <Content Include="Content\anticipo.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fondo1.jpg" />
+    <Content Include="Content\Liquidacion.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Styles.css" />
     <Content Include="favicon.ico" />
@@ -296,6 +344,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909102023035_prueba21.resx">
       <DependentUpon>201909102023035_prueba21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909131441159_liquidacion.resx">
+      <DependentUpon>201909131441159_liquidacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909131459139_liquidacion-persona.resx">
+      <DependentUpon>201909131459139_liquidacion-persona.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909171950019_cambiotital.resx">
+      <DependentUpon>201909171950019_cambiotital.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909232102393_moneda.resx">
+      <DependentUpon>201909232102393_moneda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909232108335_moneda1.resx">
+      <DependentUpon>201909232108335_moneda1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resourses\Strings.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -380,6 +443,27 @@
     <Content Include="Views\Viajes\Details.cshtml" />
     <Content Include="Views\Viajes\Edit.cshtml" />
     <Content Include="Views\Viajes\Index.cshtml" />
+    <Content Include="Views\Anticipos\Create.cshtml" />
+    <Content Include="Views\Anticipos\Delete.cshtml" />
+    <Content Include="Views\Anticipos\Details.cshtml" />
+    <Content Include="Views\Anticipos\Edit.cshtml" />
+    <Content Include="Views\Anticipos\Index.cshtml" />
+    <Content Include="Views\Viajes\Gestionar.cshtml" />
+    <Content Include="Views\ConceptosAdicionales\Create.cshtml" />
+    <Content Include="Views\ConceptosAdicionales\Delete.cshtml" />
+    <Content Include="Views\ConceptosAdicionales\Details.cshtml" />
+    <Content Include="Views\ConceptosAdicionales\Edit.cshtml" />
+    <Content Include="Views\ConceptosAdicionales\Index.cshtml" />
+    <Content Include="Views\LiquidacionesViajes\Create.cshtml" />
+    <Content Include="Views\LiquidacionesViajes\Delete.cshtml" />
+    <Content Include="Views\LiquidacionesViajes\Details.cshtml" />
+    <Content Include="Views\LiquidacionesViajes\Edit.cshtml" />
+    <Content Include="Views\LiquidacionesViajes\Index.cshtml" />
+    <Content Include="Views\DetallesLiquidacions\Create.cshtml" />
+    <Content Include="Views\DetallesLiquidacions\Delete.cshtml" />
+    <Content Include="Views\DetallesLiquidacions\Details.cshtml" />
+    <Content Include="Views\DetallesLiquidacions\Edit.cshtml" />
+    <Content Include="Views\DetallesLiquidacions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

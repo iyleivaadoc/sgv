@@ -23,7 +23,7 @@ namespace web.Models
         [Description("Terrestre")]
         Terrestre=1,
         [Description("Aéreo")]
-        Aereo=2
+        Aéreo=2
     }
 
     public enum Estado
@@ -44,4 +44,5 @@ namespace web.Models
         [Description("Exterior")]
         Exterior =2
     }
+
 }

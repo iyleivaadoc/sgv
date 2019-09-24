@@ -1,7 +1,7 @@
 ﻿@model PagedList.IPagedList<web.Models.Viajes>
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Mis Viajes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -19,7 +19,7 @@
         </div>
     </div>
     <div style="position: absolute; top: 20px; right:0px;">
-        @Html.ActionLink("registrar viaje", "Create", null, new { @class = "btn btn-success" })
+        @Html.ActionLink("Registrar Viaje", "Create", null, new { @class = "btn btn-success" })
         <br /><br />
     </div>
 </div>
@@ -71,6 +71,7 @@
                 </td>
 
                 <td>
+                    @Html.ActionLink(" ", "Gestionar", new { id = item.IdViaje }, new { @class = "btn btn-success btn-sm glyphicon glyphicon-cog", @title = "Gestionar" })
                     @Html.ActionLink(" ", "Details", new { id = item.IdViaje }, new { @class = "btn btn-info btn-sm glyphicon glyphicon-info-sign", @title = "Detalles" })
                     @Html.ActionLink(" ", "Edit", new { id = item.IdViaje }, new { @class = "btn btn-warning btn-sm glyphicon glyphicon-edit", @title = "Editar" })
                     @Html.ActionLink(" ", "Delete", new { id = item.IdViaje }, new { @class = "btn btn-danger btn-sm glyphicon glyphicon-remove-circle", @title = "Eliminar" })

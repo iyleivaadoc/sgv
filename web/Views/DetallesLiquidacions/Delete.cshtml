@@ -1,0 +1,71 @@
+﻿@model web.Models.DetallesLiquidacion
+
+@{
+    ViewBag.Title = "Eliminar gasto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-6 col-md-offset-3">
+    <h4>¿Realmente quiere eliminar este gasto?</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaGasto)
+        </dt>
+
+        <dd>
+            @{ var fec = Model.FechaGasto.ToShortDateString();}
+            @Html.DisplayFor(model => fec)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Monto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Monto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CentroCosto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CentroCosto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CuentaGasto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CuentaGasto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ComentariosSolicitante)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ComentariosSolicitante)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ComentariosAprobador)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ComentariosAprobador)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color text-center">
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> 
+            @Html.ActionLink("Cancelar", "Index", "LiquidacionesViajes", new { idViaje=Model.LiquidacionViaje.IdViaje},new { @class = "btn btn-success" })
+        </div>
+    }
+</div>

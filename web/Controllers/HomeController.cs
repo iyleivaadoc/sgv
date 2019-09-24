@@ -51,7 +51,8 @@ namespace web.Controllers
             mail.From = new MailAddress("irvinadoc@gmail.com");
             mail.To.Add("irvin.leiva@empresasadoc.com");
             mail.Subject = "correo de prueba";
-            mail.Body = "Este es un mensaje de prueba";
+            mail.Body = "<div class=\"well\" style=\"margin-top:30px; text-align:center;\"> <h1>Sistema de Gestión de Viáticos</h1><label><strong>Bienvenido Monica Sibrian </strong></label> <br><label><strong>Código de empleado: </strong>123456 </label><br> <label><strong>Correo electrónico: </strong>monica.sibrian@empresasadoc.com</label><br> <label><strong>Dirección a la que reporta: </strong> Finanzas</label><br><label><strong>País: El Salvador </strong>  <strong>Tel: 7733 3377</strong> </label><br></div>";
+
             mail.IsBodyHtml = true;
             mail.Priority = MailPriority.High;
 

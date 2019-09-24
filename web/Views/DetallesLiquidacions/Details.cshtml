@@ -1,0 +1,115 @@
+﻿@model web.Models.DetallesLiquidacion
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DetallesLiquidacion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LiquidacionViaje.UsuarioCrea)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LiquidacionViaje.UsuarioCrea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaGasto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaGasto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Monto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Monto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CentroCosto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CentroCosto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CuentaGasto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CuentaGasto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ComentariosSolicitante)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ComentariosSolicitante)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ComentariosAprobador)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ComentariosAprobador)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioCrea)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioCrea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioMod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioMod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaCrea)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaCrea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaMod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaMod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Eliminado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Eliminado)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdDetalleLiquidacion }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

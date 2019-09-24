@@ -1,0 +1,100 @@
+﻿@model IEnumerable<web.Models.DetallesLiquidacion>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LiquidacionViaje.UsuarioCrea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaGasto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Monto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CentroCosto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CuentaGasto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ComentariosSolicitante)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ComentariosAprobador)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsuarioCrea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsuarioMod)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaCrea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaMod)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Eliminado)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LiquidacionViaje.UsuarioCrea)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaGasto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Monto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CentroCosto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CuentaGasto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ComentariosSolicitante)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ComentariosAprobador)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UsuarioCrea)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UsuarioMod)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaCrea)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaMod)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Eliminado)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdDetalleLiquidacion }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdDetalleLiquidacion }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdDetalleLiquidacion })
+        </td>
+    </tr>
+}
+
+</table>

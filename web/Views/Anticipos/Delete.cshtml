@@ -1,0 +1,61 @@
+﻿@model web.Models.Anticipos
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-6 col-md-offset-3">
+    <h4>¿Realmente desea eliminar esta solicitud de anticipo?</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.Label("Proceso")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Viaje.Viaje)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Porcentaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Porcentaje)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalAdicionales)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalAdicionales)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalAsignado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalAsignado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalAnticipar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalAnticipar)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color" style="text-align:center;">
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> 
+            @Html.ActionLink("Cancelar", "Index",new {idViaje=Model.IdViaje },new { @class="btn btn-success"})
+        </div>
+    }
+</div>

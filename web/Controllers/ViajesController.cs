@@ -27,7 +27,7 @@ namespace web.Controllers
             }
             ViewBag.CurrentFilter = searchString;
             viajes = viajes.OrderByDescending(p => p.FechaInicio);
-            int pageSize = 2;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(viajes.ToPagedList(pageNumber, pageSize));
         }
@@ -146,6 +146,13 @@ namespace web.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public ActionResult Gestionar(int id)
+        {
+            db.Viajes.Find(id);
+            return View(db.Viajes.Find(id));
+        }
+
 
         protected override void Dispose(bool disposing)
         {

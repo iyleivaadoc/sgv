@@ -84,12 +84,15 @@ namespace web.Models
             return new ApplicationDbContext();
         }
 
-        public DbSet<Persona> Persona { get; set; }
         public DbSet<Accesos> Accesos { get; set; }
         public DbSet<Permisos> Permisos { get; set; }
         public DbSet<Departamentos> Departamentos { get; set; }
         public DbSet<Paises> Paises { get; set; }
         public DbSet<Viajes> Viajes { get; set; }
-
+        public DbSet<Anticipos> Anticipos { get; set; }
+        public DbSet<ConceptosAdicionales> ConceptosAdicionales { get; set; }
+        public DbSet<LiquidacionesViaje> LiquidacionesViaje { get; set; }
+        public DbSet<DetallesLiquidacion> DetallesLiquidacion { get; set; }
+        public DbSet<Moneda> Moneda { get; set; }
     }
 }

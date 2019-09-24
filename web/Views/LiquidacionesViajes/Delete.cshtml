@@ -1,0 +1,72 @@
+﻿@model web.Models.LiquidacionesViaje
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-6 col-md-offset-3">
+    <h4>¿Realmente desea eliminar la solicitud de liquidación?</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Viaje.Viaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Viaje.Viaje)
+        </dd>
+
+        <dt>
+            Total Liquidación
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalAsignado)
+            |@{var ta = Math.Round(Model.TotalAsignado/Model.TasaCambio,2); }
+            $ @ta
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalAnticipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalAnticipo)
+        |@{var ant = Math.Round(Model.TotalAnticipo / Model.TasaCambio,2); }
+           $ @ant
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TasaCambio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TasaCambio)
+        </dd>
+
+        
+
+        <dt>
+           Diferencia
+        </dt>
+
+        <dd>
+            @{var dif = Model.TotalAnticipo - Model.TotalAsignado;}
+            @dif
+            |@{ var dif2 = Math.Round(dif/Model.TasaCambio,2);}
+            $ @dif2
+        </dd>
+
+        
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color text-center">
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> 
+            @Html.ActionLink("Cancelar", "Index",new { idviaje=Model.IdViaje},new { @class="btn btn-success"})
+        </div>
+    }
+</div>

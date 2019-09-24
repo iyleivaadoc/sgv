@@ -1,0 +1,75 @@
+﻿@model web.Models.DetallesLiquidacion
+
+@{
+    ViewBag.Title = "Editar gasto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal col-md-6 col-md-offset-3">
+        <h4>Editar gasto.</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IdDetalleLiquidacion)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FechaGasto, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.FechaGasto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FechaGasto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Monto, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0.01", @step = "0.01" } })
+                @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CentroCosto, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.CentroCosto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CentroCosto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CuentaGasto, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.CuentaGasto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CuentaGasto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ComentariosSolicitante, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.TextAreaFor(model => model.ComentariosSolicitante, new { @class = "form-control", @style= "height: 100px;" })
+                @Html.ValidationMessageFor(model => model.ComentariosSolicitante, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.ComentariosAprobador)
+        @Html.HiddenFor(model => model.IdLiquidacionViaje)
+        @Html.HiddenFor(model => model.UsuarioCrea)
+        @Html.HiddenFor(model => model.UsuarioMod)
+        @Html.HiddenFor(model => model.FechaCrea)
+        @Html.HiddenFor(model => model.FechaMod)
+        @Html.HiddenFor(model => model.Eliminado)
+
+
+        <div class="form-group">
+            <div class="col-md-12 text-center">
+                <input type="submit" value="Guardar" class="btn btn-warning" />
+                @Html.ActionLink("Cancelar", "Index", "LiquidacionesViajes", new { idViaje=Model.LiquidacionViaje.IdViaje},new { @class="btn btn-success"})
+            </div>
+        </div>
+    </div>
+}
+

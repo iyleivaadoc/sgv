@@ -1,0 +1,51 @@
+﻿@model web.Models.ConceptosAdicionales
+
+@{
+    ViewBag.Title = "Agregar gasto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal col-md-6 col-md-offset-3">
+        <h4>Agregar nuevo gasto</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Concepto, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Concepto, new { @class = "form-control", @style = "height: 100px;" })
+                @Html.ValidationMessageFor(model => model.Concepto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Monto, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.IdAnticipo)
+        @Html.HiddenFor(model => model.UsuarioCrea)
+        @Html.HiddenFor(model => model.UsuarioMod)
+        @Html.HiddenFor(model => model.FechaCrea)
+        @Html.HiddenFor(model => model.FechaMod)
+        @Html.HiddenFor(model => model.Eliminado)
+
+
+        <div class="form-group">
+            <div class="col-md-12" style="text-align:center;">
+                <input type="submit" value="Agregar" class="btn btn-success" />
+                @Html.ActionLink("Cancelar", "Index","Anticipos",new { idViaje= ViewBag.idViaje },new { @class="btn btn-warning"})
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    
+</div>

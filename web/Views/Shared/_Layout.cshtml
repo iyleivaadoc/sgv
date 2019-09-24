@@ -7,7 +7,16 @@
     <title>@ViewBag.Title - SGV</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Content/alerts/alertify.min.js"></script>
+    <link href="~/Content/alerts/css/alertify.min.css" rel="stylesheet" />
+    <link href="~/Content/alerts/css/themes/default.css" rel="stylesheet" />
+    <script Language="JavaScript">
+        if (history.forward(1)) {
+            history.replace(history.forward("#"));
+        }
+    </script>
 
     @*@if (User.Identity.IsAuthenticated) {<script>
             var a = "@System.Web.HttpContext.Current.Session["sessionString"].ToString()";
@@ -25,7 +34,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a href="/Home/Index">
-                    <img src="~/favicon.ico" style="margin-top: 10px;" alt="ADOC"/>
+                    <img src="~/favicon.ico" style="margin-top: 10px;" alt="ADOC" />
                 </a>
             </div>
 
@@ -53,33 +62,33 @@
                             {
                                 if (item.Tipo)
                                 {
-                                <li class="nav-link dropdown-toggle">
-                                    <a class="nav-link dropdown-toggle" href="/@item.Control/@item.Metodo">
-                                        @item.Nombre
-                                        <span style="font-size:24px;" class="pull-right showopacity fa aria-hidden="true"></span>
-                                    </a>
-                                </li>
+                                    <li class="nav-link dropdown-toggle">
+                                        <a class="nav-link dropdown-toggle" href="/@item.Control/@item.Metodo">
+                                            @item.Nombre
+                                            <span style="font-size:24px;" class="pull-right showopacity fa aria-hidden="true"></span>
+                                        </a>
+                                    </li>
                                 }
                                 else
                                 {
-                                <li class="nav-item dropdown">
-                                    <a id="dropdown1" @item.Nombre data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@item.Nombre</a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdown1">
-                                        @foreach (var item2 in item.hijos)
-                                        {
-                                            <li class="nav-link dropdown-toggle">
-                                                <a class="nav-link dropdown-toggle" href="/@item2.Control/@item2.Metodo">
-                                                    @item2.Nombre
-                                                    <span style="font-size:24px;" class="pull-right showopacity fa aria-hidden="true"></span>
-                                                </a>
-                                            </li>
-                                        }
-                                    </ul>
-                                </li>
-                                    }
+                                    <li class="nav-item dropdown">
+                                        <a id="dropdown1" @item.Nombre data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@item.Nombre</a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdown1">
+                                            @foreach (var item2 in item.hijos)
+                                            {
+                                                <li class="nav-link dropdown-toggle">
+                                                    <a class="nav-link dropdown-toggle" href="/@item2.Control/@item2.Metodo">
+                                                        @item2.Nombre
+                                                        <span style="font-size:24px;" class="pull-right showopacity fa aria-hidden="true"></span>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
                                 }
                             }
                         }
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -92,11 +101,6 @@
                 <p>&copy; @DateTime.Now.Year -ADOC</p>
             </footer>*@
     </div>
-
-
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
 
     <script>
         $(document).ready(function () {
