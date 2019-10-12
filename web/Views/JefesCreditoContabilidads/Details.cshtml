@@ -1,0 +1,35 @@
+﻿@model web.Models.JefesCreditoContabilidad
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>JefesCreditoContabilidad</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.JefeUsuario.Nombres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JefeUsuario.Nombres)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Pais.Pais)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pais.Pais)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdJefe }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

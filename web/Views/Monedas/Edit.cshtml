@@ -1,0 +1,61 @@
+﻿@model web.Models.Moneda
+
+@{
+    ViewBag.Title = "Editar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal col-md-offset-4 col-md-4">
+        <h4>Editar Moneda</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IdMoneda)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MonedaCambio,"Moneda", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.MonedaCambio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MonedaCambio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Simbolo, "Simbolo", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Simbolo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Simbolo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.TasaCambio,"Tasa de cambio", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.TasaCambio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TasaCambio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdPais, "País", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.DropDownList("IdPais", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IdPais, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.UsuarioCrea)
+        @Html.HiddenFor(model => model.UsuarioMod)
+        @Html.HiddenFor(model => model.FechaCrea)
+        @Html.HiddenFor(model => model.FechaMod)
+        @Html.HiddenFor(model => model.Eliminado)
+        <div class="form-group">
+            <div class="text-center">
+                <input type="submit" value="Save" class="btn btn-warning" />
+                @Html.ActionLink("Cancelar", "Index",null,new { @class="btn btn-success"})
+            </div>
+        </div>
+    </div>
+}
+

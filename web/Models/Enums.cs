@@ -23,7 +23,9 @@ namespace web.Models
         [Description("Terrestre")]
         Terrestre=1,
         [Description("Aéreo")]
-        Aéreo=2
+        Aéreo=2,
+        [Description("Otra")]
+        Otra=3
     }
 
     public enum Estado
@@ -32,17 +34,23 @@ namespace web.Models
         Creado =1,
         [Description("Terminado")]
         Terminado =2,
+        [Description("Aprobado")]
+        Aprobado = 3,
         [Description("Bloqueado")]
-        Bloqueado =3,
+        Bloqueado =4,
         [Description("Eliminado")]
-        Eliminado =4
+        Finalizado =5,
+        [Description("Validado")]
+        Validado=6
     }
 
     public enum ClasificacionViaje {
         [Description("Interior")]
-        Interior =1,
+        Interior = 1,
         [Description("Exterior")]
-        Exterior =2
+        Exterior = 2,
+        [Description("Otra")]
+        Otra = 3
     }
 
 }

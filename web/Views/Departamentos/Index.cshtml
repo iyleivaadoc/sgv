@@ -1,0 +1,54 @@
+﻿@model IEnumerable<web.Models.Departamentos>
+
+@{
+    ViewBag.Title = "Departamentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Departamentos</h2>
+
+<p>
+    @Html.ActionLink("Crear nuevo departamento", "Create",null,new { @class="btn btn-success btn-xl"})
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Departamento")
+        </th>
+        <th>
+            @Html.DisplayName("Descripción")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PersonaACargo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailNotificacion)
+        </th>
+        
+        <th>Opciones</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreDepartamento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescripcionDepartamento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PersonaACargo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailNotificacion)
+        </td>
+       
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.idDepartamento }) |
+            @Html.ActionLink("Details", "Details", new { id=item.idDepartamento }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.idDepartamento })
+        </td>
+    </tr>
+}
+
+</table>

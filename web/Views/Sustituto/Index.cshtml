@@ -1,0 +1,52 @@
+﻿@model IEnumerable<web.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Aprobador sustituto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Raw(Session["MyAlert"])
+@{ Session["MyAlert"] = null;}
+
+<h2>Aprobador sustituto</h2>
+
+<table class="table table-bordered table-condensed table-hover table-responsive table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Departamento.NombreDepartamento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pais.Pais)
+        </th>
+        <th>
+            @Html.DisplayName("Nombre")
+        </th>
+        
+        <th>
+            @Html.DisplayName("Aprobador Sustituto")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Departamento.NombreDepartamento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pais.Pais)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.suplente)
+        </td>
+        
+        <td>
+            @Html.ActionLink("Asignar Sustituto", "AprobadorSustituto", new { id=item.Id }, new { @class="btn btn-success"})
+        </td>
+    </tr>
+}
+
+</table>

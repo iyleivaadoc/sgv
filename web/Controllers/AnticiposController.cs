@@ -28,7 +28,8 @@ namespace web.Controllers
             ViewBag.Porcentaje = new List<SelectListItem>()
                                             {new SelectListItem() { Text = "25%", Value = "25" },
                                             new SelectListItem() { Text = "50%", Value = "50" },
-                                            new SelectListItem() { Text = "75%", Value = "75" } };
+                                            new SelectListItem() { Text = "75%", Value = "75" },
+                                            new SelectListItem() { Text = "100%", Value = "100" }};
             if (anticipos.ToList().Count() > 0)
             {
                 return View(anticipos.FirstOrDefault());
@@ -46,10 +47,16 @@ namespace web.Controllers
                 anticipo.UsuarioCrea = GetUserId(User);
                 anticipo.IdViaje = (int)idViaje;
                 anticipo.IdEstado = Estado.Creado;
-                anticipo.Porcentaje = 25;
+                var anticiposCorrelativo = db.Anticipos.Where(ac => ac.Viaje.Usuario.Id == anticipo.UsuarioCrea).ToList().AsReadOnly();
+                var corre="00000"+(anticiposCorrelativo.Count()+1);
+                anticipo.NoSolicitud = corre.Substring(corre.Length-5,5);
+                var use = db.Users.Where(u => u.Id == anticipo.UsuarioCrea).Include(u => u.Departamento).SingleOrDefault();
+                anticipo.UsuarioAutoriza = use.Departamento.IdPersonaACargo;
+                var viaje = db.Viajes.Find(idViaje);
+                anticipo.Porcentaje = 100;
                 anticipo.TasaCambioApp = 0;
                 anticipo.TotalAdicionales = 0;
-                anticipo.TotalAsignado = 100;
+                anticipo.TotalAsignado = totalAsignado(viaje.IdPaisOrigen, viaje.IdPaisDestino, use.Cargo, viaje.ClasificacionViaje) * viaje.Duracion;
                 anticipo.TotalViaje = anticipo.TotalAsignado;
                 anticipo.TotalAnticipar = anticipo.TotalViaje * (anticipo.Porcentaje / 100.00);
                 db.Entry(anticipo).State = EntityState.Added;
@@ -58,6 +65,17 @@ namespace web.Controllers
                 Session["MyAlert"] = "<script type='text/javascript'>alertify.success('Se ha creado la solicitud exitosamente.');</script>";
                 return View(anticipos.FirstOrDefault());
             }
+        }
+
+        public double totalAsignado(int origen, int destino, Cargo cargo,ClasificacionViaje clasificacion)
+        {
+            var totaldiario = 0.0;
+            var gastos = db.GastosIniciales.Where(g => g.IdPaisOrigen == origen && g.IdPaisDestino == destino && g.IdCargo == cargo && g.IdClasificacionViaje==clasificacion);
+            foreach(var item in gastos)
+            {
+                totaldiario += item.Gasto;
+            }
+            return totaldiario;
         }
 
         // GET: Anticipos/Details/5
@@ -106,14 +124,49 @@ namespace web.Controllers
             if (id == null || idViaje == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var antc = db.Anticipos.Find(id);
-            antc.IdEstado = Estado.Terminado;
+            var antc = db.Anticipos.Where(a=>a.IdAnticipo==id).Include(a=>a.Viaje.Usuario).SingleOrDefault();
+            var anticipos = db.Anticipos.Where(an => an.Eliminado != true && an.IdEstado!= Estado.Finalizado && an.IdEstado != Estado.Creado && an.IdEstado != Estado.Bloqueado && an.Viaje.Usuario.Id==antc.Viaje.Usuario.Id);
+            string readText = "";
+            ApplicationUser autorizador;
+            string subject = "";
+            if (anticipos == null || anticipos.Count() > 0)
+            {
+                antc.IdEstado = Estado.Bloqueado;
+                readText = System.IO.File.ReadAllText(@"C:\FormatosCorreo\DesbloquearViatico.html");
+                readText = readText.Replace("$$nombre##", antc.Viaje.Usuario.FullName).Replace("$$$monto##", antc.TotalAnticipar.ToString("###,###.00"));
+                var jefe = db.JefesCreditoContabilidad.Where(j => j.IdPais == antc.Viaje.Usuario.IdPais).FirstOrDefault();
+                autorizador = db.Users.Find(jefe.IdJefeUsuario);
+                subject = "Desbloqueo de viáticos";
+            }
+            else
+            {
+                antc.IdEstado = Estado.Terminado;
+                readText = System.IO.File.ReadAllText(@"C:\FormatosCorreo\AprobarViatico.html");
+                readText = readText.Replace("$$nombre##", antc.Viaje.Usuario.FullName).Replace("$$$monto##", antc.TotalAnticipar.ToString("###,###.00"));
+                subject = "Aprobación de viáticos";
+                autorizador = db.Users.Find(antc.UsuarioAutoriza);
+            }
             antc.UsuarioMod = GetUserId(User);
             antc.FechaMod = DateTime.Now;
             db.Entry(antc).State = EntityState.Modified;
             db.SaveChanges();
             Session["MyAlert"] = "<script type='text/javascript'>alertify.success('Se ha enviado la solicitud exitosamente para su evaluación.');</script>";
-            // aqui se debe enviar el correo a la persona que aprueba el anticipo.
+            if (antc.IdEstado == Estado.Bloqueado)
+            {
+                var readText2 = System.IO.File.ReadAllText(@"C:\FormatosCorreo\AnticipoBloqueado.html");
+                if (!EnviarCorreo(autorizador.Email, subject, readText) || !EnviarCorreo(antc.Viaje.Usuario.Email, "Solicitud de viáticos bloqueada", readText2))
+                {
+                    Session["MyAlert"] += "   <script type='text/javascript'>alertify.error('No se pudo envíar notificación a su superior favor hacerlo verbalmente.');</script>";
+                }
+            }
+            else
+            {
+                if (!EnviarCorreo(autorizador.Email, subject, readText))
+                {
+                    Session["MyAlert"] += "   <script type='text/javascript'>alertify.error('No se pudo envíar notificación a su superior favor hacerlo verbalmente.');</script>";
+                }
+            }
+
             return RedirectToAction("index",new { idViaje=idViaje});
         }
 

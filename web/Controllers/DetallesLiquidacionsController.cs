@@ -42,10 +42,15 @@ namespace web.Controllers
             if (idLiquidacionViaje == null || idViaje == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var iduser = GetUserId(User);
+            var usuario = db.Users.Find(iduser);
+            ViewBag.CentroCosto= new SelectList( db.Users.Where(u => u.Nombres != "Administrador" && u.Apellidos!= "Administrador").OrderBy(u=>u.Nombres), "CentroCosto", "FullName",usuario.CentroCosto);
             ViewBag.idViaje = idViaje;
             DetallesLiquidacion det = new DetallesLiquidacion();
             var viaj = db.Viajes.Find(idViaje);
             det.FechaGasto = viaj.FechaInicio;
+            var cuga = db.CuentasGasto.Where(c => c.CeCo == usuario.CentroCosto && c.IdClasificacion==viaj.ClasificacionViaje && c.IdPais==usuario.IdPais);
+            ViewBag.CuentaGasto = new SelectList(cuga, "IdCuentaGasto", "cuenta");
             det.IdLiquidacionViaje = (int)idLiquidacionViaje;
             return View(det);
         }
@@ -71,7 +76,9 @@ namespace web.Controllers
                 Session["MyAlert"] = "<script type='text/javascript'>alertify.success('Gasto Agregado');</script>";
                 return RedirectToAction("Index", "LiquidacionesViajes",new { idViaje=lv.IdViaje});
             }
-
+            var lvj = db.LiquidacionesViaje.Find(detallesLiquidacion.IdLiquidacionViaje);
+            ViewBag.idViaje = lvj.IdViaje;
+            ViewBag.CuentaGasto = new SelectList(db.CuentasGasto, "IdCuentaGasto", "cuenta",detallesLiquidacion.CuentaGasto);
             ViewBag.IdLiquidacionViaje = new SelectList(db.LiquidacionesViaje, "IdLiquidacionViaje", "UsuarioCrea", detallesLiquidacion.IdLiquidacionViaje);
             return View(detallesLiquidacion);
         }
@@ -88,7 +95,9 @@ namespace web.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CuentaGasto = new SelectList(db.CuentasGasto, "IdCuentaGasto", "cuenta", detallesLiquidacion.CuentaGasto);
             ViewBag.IdLiquidacionViaje = new SelectList(db.LiquidacionesViaje, "IdLiquidacionViaje", "UsuarioCrea", detallesLiquidacion.IdLiquidacionViaje);
+            ViewBag.CentroCosto = new SelectList(db.Users.Where(u => u.Nombres != "Administrador" && u.Apellidos != "Administrador"), "CentroCosto", "FullName", detallesLiquidacion.CentroCosto);
             return View(detallesLiquidacion);
         }
 
@@ -117,6 +126,10 @@ namespace web.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "LiquidacionesViajes", new { idViaje = lv.IdViaje });
             }
+            var lvj = db.LiquidacionesViaje.Find(detallesLiquidacion.IdLiquidacionViaje);
+            detallesLiquidacion.LiquidacionViaje = lvj;
+            ViewBag.CuentaGasto = new SelectList(db.CuentasGasto, "IdCuentaGasto", "cuenta", detallesLiquidacion.CuentaGasto);
+            ViewBag.CentroCosto = new SelectList(db.Users.Where(u => u.Nombres != "Administrador" && u.Apellidos != "Administrador"), "CentroCosto", "FullName", detallesLiquidacion.CentroCosto);
             return View(detallesLiquidacion);
         }
 

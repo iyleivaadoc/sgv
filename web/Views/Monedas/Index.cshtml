@@ -1,0 +1,55 @@
+﻿@model IEnumerable<web.Models.Moneda>
+
+@{
+    ViewBag.Title = "Monedas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-offset-2 col-md-8">
+    <h2>Monedas</h2>
+
+    <p>
+        @Html.ActionLink("Registrar Moneda", "Create", null, new { @class = "btn btn-success btn-block" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Pais.Pais)
+            </th>
+            <th>
+                @Html.DisplayName("Moneda")
+            </th>
+            <th>
+                @Html.DisplayName("Simbolo")
+            </th>
+            <th>
+                @Html.DisplayName("Tasa de cambio")
+            </th>
+            <th>Opciones</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pais.Pais)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MonedaCambio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Simbolo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TasaCambio)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.IdMoneda }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.IdMoneda }) |
+                    @Html.ActionLink("Borrar", "Delete", new { id = item.IdMoneda })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

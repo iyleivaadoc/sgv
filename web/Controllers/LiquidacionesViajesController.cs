@@ -32,7 +32,7 @@ namespace web.Controllers
             {
                 LiquidacionesViaje lv = new LiquidacionesViaje();
                 lv.TotalAsignado = 0;
-                var ant = db.Anticipos.Where(a => a.Eliminado != true && a.IdEstado==Estado.Terminado && a.IdViaje==idViaje).SingleOrDefault();
+                var ant = db.Anticipos.Where(a => a.Eliminado != true && a.IdEstado==Estado.Finalizado && a.IdViaje==idViaje).SingleOrDefault();
                 if (ant != null)
                 {
                     lv.TotalAnticipo = ant.TotalAnticipar;
@@ -40,16 +40,21 @@ namespace web.Controllers
                 else {
                     lv.TotalAnticipo = 0;
                 }
-                var viaje = db.Viajes.Where(v => v.IdViaje == idViaje).Include(v=>v.Destino.Moneda).FirstOrDefault();
+                var viaje = db.Viajes.Where(v => v.IdViaje == idViaje).Include(v=>v.Destino.Moneda).Include(v=>v.Usuario.Departamento).FirstOrDefault();
                 foreach(var item in viaje.Destino.Moneda.Where(m => m.Eliminado != true))
                 {
                     lv.IdMoneda = item.IdMoneda;
                     lv.TasaCambio = item.TasaCambio;
                 }
+                lv.UsuarioCrea = GetUserId(User);
+                var lvCorrelativo = db.LiquidacionesViaje.Where(ac => ac.Viaje.Usuario.Id == lv.UsuarioCrea).ToList().AsReadOnly();
+                var corre = "00000" + (lvCorrelativo.Count() + 1);
+                lv.NoSolicitud = corre.Substring(corre.Length - 5, 5);
+                lv.UsuarioAutoriza = viaje.Usuario.Departamento.IdPersonaACargo;
                 lv.Eliminado = false;
                 lv.IdViaje = (int)idViaje;
                 lv.IdEstado = Estado.Creado;
-                lv.UsuarioCrea = GetUserId(User);
+                
                 lv.FechaCrea = DateTime.Now;
                 db.Entry(lv).State = EntityState.Added;
                 db.SaveChanges();
@@ -82,14 +87,32 @@ namespace web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var lv = db.LiquidacionesViaje.Find(id);
+            var lv = db.LiquidacionesViaje.Where(l=>l.IdLiquidacionViaje==id).Include(l=>l.Viaje.Usuario.Pais).SingleOrDefault();
             lv.IdEstado = Estado.Terminado;
             lv.UsuarioMod = GetUserId(User);
             lv.FechaMod = DateTime.Now;
             db.Entry(lv).State = EntityState.Modified;
             db.SaveChanges();
             Session["MyAlert"] = "<script type='text/javascript'>alertify.success('Se ha enviado la solicitud de liquidación exitosamente para su evaluación.');</script>";
-            // aqui se debe enviar el correo a la persona que aprueba la liquidación.
+            if (lv.TotalAnticipo==0) {
+                var us = db.Users.Find(lv.UsuarioAutoriza);
+                string readText = System.IO.File.ReadAllText(@"C:\FormatosCorreo\AprobarLiquidacion.html");
+                readText=readText.Replace("$$nombre##", lv.Viaje.Usuario.FullName).Replace("$$$monto##", lv.TotalAsignado.ToString("$###,###.00"));
+                if (!EnviarCorreo(us.Email, "Aprobación de liquidación", readText)) {
+                    Session["MyAlert"] += "  <script type='text/javascript'>alertify.error('no se pudo enviar la notificación a su jefe inmediato superior, favor notifique a sistemas.');</script>";
+                }
+            }else
+            {
+                var jefe = db.JefesCreditoContabilidad.Where(j=>j.IdPais==lv.Viaje.Usuario.IdPais).FirstOrDefault();
+                var us =db.Users.Find(jefe.IdJefeUsuario);
+                string readText = System.IO.File.ReadAllText(@"C:\FormatosCorreo\ValidarLiquidacion.html");
+                readText = readText.Replace("$$nombre##", lv.Viaje.Usuario.FullName).Replace("$$$monto##", (lv.TotalAnticipo - lv.TotalAsignado).ToString("$ ###,###.00"));
+                if (!EnviarCorreo(us.Email, "Validación de liquidación", readText))
+                {
+                    Session["MyAlert"] += "  <script type='text/javascript'>alertify.error('no se pudo enviar la notificación a su jefe inmediato superior, favor notifique a sistemas.');</script>";
+                }
+            }
+
             return RedirectToAction("index", new { idViaje = idViaje });
         }
 
@@ -150,12 +173,12 @@ namespace web.Controllers
                 lv.IdMoneda = liquidacionesViaje.IdMoneda;
                 lv.TasaCambio = liquidacionesViaje.TasaCambio;
                 Moneda mon = db.Moneda.Find(lv.IdMoneda);
-                if((mon.TasaCambio*0.9)>liquidacionesViaje.TasaCambio || (mon.TasaCambio * 1.1) < liquidacionesViaje.TasaCambio)
-                {
-                    Session["MyAlert"] = "<script type='text/javascript'>alertify.error('La tasa de cambio varía del + o - 10% de la registrada.');</script>";
-                    ViewBag.IdMoneda = new SelectList(db.Moneda.Where(m => m.Eliminado != true), "IdMoneda", "MonedaCambio", liquidacionesViaje.IdMoneda);
-                    return View("Index",lv);
-                }
+                //if((mon.TasaCambio*0.9)>liquidacionesViaje.TasaCambio || (mon.TasaCambio * 1.1) < liquidacionesViaje.TasaCambio)
+                //{
+                //    Session["MyAlert"] = "<script type='text/javascript'>alertify.error('La tasa de cambio varía del + o - 10% de la registrada.');</script>";
+                //    ViewBag.IdMoneda = new SelectList(db.Moneda.Where(m => m.Eliminado != true), "IdMoneda", "MonedaCambio", liquidacionesViaje.IdMoneda);
+                //    return View("Index",lv);
+                //}
                 lv.UsuarioMod = GetUserId(User);
                 lv.FechaMod = DateTime.Now;
                 db.Entry(lv).State = EntityState.Modified;

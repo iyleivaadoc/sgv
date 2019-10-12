@@ -7,17 +7,17 @@ using System.Web;
 
 namespace web.Models
 {
-    public class Departamentos
+    public class Departamentos:HuellaAuditoria
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int idDepartamento { get; set; }
 
         [Required]
-        [Display(Name = "Nombre Departamento")]
+        [Display(Name = "Departamento")]
         [StringLength(256)]
         public String NombreDepartamento { get; set; }
 
-        [Display(Name = "Descripción Departamento")]
+        [Display(Name = "Descripción"), Required]
         [StringLength(256)]
         public String DescripcionDepartamento { get; set; }
 
@@ -29,14 +29,9 @@ namespace web.Models
         [StringLength(256)]
         public String EmailNotificacion { get; set; }
 
-        public string UsuarioCrea { get; set; }
+        [StringLength(128)]
+        public string IdPersonaACargo { get; set; }
 
-        public string UsuarioModifica { get; set; }
-
-        public DateTime FechaCrea { get; set; }
-
-        public DateTime FechaModifica { get; set; }
-
-        public bool Eliminado { get; set; }
+        
     }
 }

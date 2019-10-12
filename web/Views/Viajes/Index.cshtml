@@ -1,13 +1,13 @@
 ﻿@model PagedList.IPagedList<web.Models.Viajes>
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "Mis Viajes";
+    ViewBag.Title = "Mis Procesos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div style="position: relative;">
     <div class="row col-md-12" style="position: absolute;">
-        <h2 class="col-md-3">Registro de Viajes</h2>
+        <h2 class="col-md-3">Procesos</h2>
         <div class="col-md-5" style="top: 10px;">
             @using (Html.BeginForm())
             {
@@ -19,7 +19,7 @@
         </div>
     </div>
     <div style="position: absolute; top: 20px; right:0px;">
-        @Html.ActionLink("Registrar Viaje", "Create", null, new { @class = "btn btn-success" })
+        @Html.ActionLink("Registrar Proceso", "Create", null, new { @class = "btn btn-success" })
         <br /><br />
     </div>
 </div>
@@ -45,7 +45,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.First().ClasificacionViaje)
             </th>
-            <th>Opciones</th>
+            <th style="width: 15%;">Opciones</th>
         </tr>
 
         @foreach (var item in Model)

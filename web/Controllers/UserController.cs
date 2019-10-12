@@ -178,6 +178,7 @@ namespace web.Controllers
             return RedirectToAction("Index");
         }
 
+       
 
         public ApplicationUserManager UserManager
         {

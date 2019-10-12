@@ -1,0 +1,40 @@
+﻿@model IEnumerable<web.Models.JefesCreditoContabilidad>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.JefeUsuario.Nombres)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pais.Pais)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.JefeUsuario.Nombres)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pais.Pais)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdJefe }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdJefe }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdJefe })
+        </td>
+    </tr>
+}
+
+</table>

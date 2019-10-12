@@ -1,0 +1,86 @@
+﻿@model PagedList.IPagedList<web.Models.LiquidacionesViaje>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Aprobar Liquidaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Raw(Session["MyAlert"])
+@{ Session["MyAlert"] = null;}
+
+<div class="row col-md-12" style="position: absolute;">
+    <h2 class="col-md-4">Aprobar liquidaciones</h2>
+    <div class="col-md-5" style="top: 10px;">
+        @using (Html.BeginForm())
+            {
+            <p>
+                <input type="submit" value="Buscar" class="btn btn-info col-md-2" style="margin-left: 5px;" />
+                @Html.TextBox("SearchString", null, new { @class = "form-control col-md-6", @style = "margin-left: 5px;" })
+            </p>
+        }
+    </div>
+</div>
+<div class="col-md-12" style="position: relative; top: 60px; padding-right: 0px; background-color: white;">
+    <table class="table  table-bordered table-condensed table-responsive table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().NoSolicitud)
+            </th>
+            <th>
+                @Html.DisplayName("Colaborador")
+            </th>
+            <th>
+                @Html.DisplayName("Proceso")
+            </th>
+            <th>
+                @Html.DisplayName("Total liquidación")
+            </th>
+            <th>
+                @Html.DisplayName("Moneda")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().TasaCambio)
+            </th>
+            <th>Opciones</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoSolicitud)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Viaje.Usuario.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Viaje.Viaje)
+                </td>
+                <td  style="text-align:right; padding-right:10px;">
+                    @{ var ta = item.TotalAsignado.ToString("###,##0.00");}
+                    @Html.DisplayFor(modelItem => item.TotalAsignado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Moneda.MonedaCambio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TasaCambio)
+                </td>
+
+                <td style="text-align:center;">
+                    @Html.ActionLink(" ", "AprobarDenegarLiqTesoreria", new { id = item.IdLiquidacionViaje }, new { @class = "btn btn-success glyphicon glyphicon-barcode", @title = "Procesar Liquidación" })
+                </td>
+            </tr>
+        }
+
+    </table>
+    Mostrando de @Model.FirstItemOnPage a @Model.LastItemOnPage De @Model.TotalItemCount
+    @Html.PagedListPager(Model, page => Url.Action("IndexLiquidacionTesoreria",
+    new
+    {
+        page,
+        sortOrder = ViewBag.CurrentSort,
+        currentFilter = ViewBag.CurrentFilter,
+        SearchString = ViewBag.CurrentFilter
+    }))
+</div>

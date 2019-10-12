@@ -12,6 +12,7 @@
     <script src="~/Content/alerts/alertify.min.js"></script>
     <link href="~/Content/alerts/css/alertify.min.css" rel="stylesheet" />
     <link href="~/Content/alerts/css/themes/default.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/favicon.ico">
     <script Language="JavaScript">
         if (history.forward(1)) {
             history.replace(history.forward("#"));
@@ -33,7 +34,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/Home/Index">
+                <a href="~/Home/Index">
                     <img src="~/favicon.ico" style="margin-top: 10px;" alt="ADOC" />
                 </a>
             </div>
@@ -63,9 +64,8 @@
                                 if (item.Tipo)
                                 {
                                     <li class="nav-link dropdown-toggle">
-                                        <a class="nav-link dropdown-toggle" href="/@item.Control/@item.Metodo">
+                                        <a class="nav-link dropdown-toggle" href="~/@item.Control/@item.Metodo">
                                             @item.Nombre
-                                            <span style="font-size:24px;" class="pull-right showopacity fa aria-hidden="true"></span>
                                         </a>
                                     </li>
                                 }
@@ -77,9 +77,8 @@
                                             @foreach (var item2 in item.hijos)
                                             {
                                                 <li class="nav-link dropdown-toggle">
-                                                    <a class="nav-link dropdown-toggle" href="/@item2.Control/@item2.Metodo">
+                                                    <a class="nav-link dropdown-toggle" href="~/@item2.Control/@item2.Metodo">
                                                         @item2.Nombre
-                                                        <span style="font-size:24px;" class="pull-right showopacity fa aria-hidden="true"></span>
                                                     </a>
                                                 </li>
                                             }

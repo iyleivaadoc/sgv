@@ -1,0 +1,73 @@
+﻿@model IEnumerable<web.Models.Anticipos>
+
+@{
+    ViewBag.Title = "Desbloqueo de anticipos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Raw(Session["MyAlert"])
+@{ Session["MyAlert"] = null;}
+
+<div class="row col-md-12" style="position: absolute;">
+    <h2 class="col-md-4">Desbloquear anticipos</h2>
+    <div class="col-md-5" style="top: 10px;">
+        @using (Html.BeginForm())
+            {
+            <p>
+                <input type="submit" value="Buscar" class="btn btn-info col-md-2" style="margin-left: 5px;" />
+                @Html.TextBox("SearchString", null, new { @class = "form-control col-md-6", @style = "margin-left: 5px;" })
+            </p>
+        }
+    </div>
+</div>
+<div class="col-md-12" style="position: relative; top: 60px; padding-right: 0px; background-color: white;">
+    <table class="table table-bordered table-hover table-responsive table-condensed table-striped">
+        <tr>
+            <th>
+                @Html.DisplayName("Colaborador solicitante")
+            </th>
+            <th>
+                @Html.DisplayName("Proceso")
+            </th>
+            <th>
+                @Html.DisplayName("Monto total")
+            </th>
+            <th>
+                @Html.DisplayName("Porcentaje")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAnticipar)
+            </th>
+
+            <th style="width: 12%;">Aprobar/Denegar</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Viaje.Usuario.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Viaje.Viaje)
+                </td>
+                <td style="text-align:right; padding-right: 25px;">
+                    @{ var a = item.TotalViaje.ToString("###,##0.00");}
+                    @Html.DisplayFor(modelItem => a)
+                </td>
+                <td style="text-align:center;">
+                    @Html.DisplayFor(modelItem => item.Porcentaje) %
+                </td>
+                <td style="text-align:right; padding-right: 25px;">
+                    @{ var b = item.TotalAnticipar.ToString("###,##0.00");}
+                    @Html.DisplayFor(modelItem => b)
+                </td>
+
+                <td style="text-align:center;">
+                    @Html.ActionLink(" ", "DesbloquearAnular", new { id = item.IdAnticipo }, new { @class = "btn btn-success glyphicon glyphicon-barcode", @title = "Desbloquea/Elimina anticipo" })
+                </td>
+            </tr>
+                        }
+
+    </table>
+</div>

@@ -21,7 +21,7 @@ namespace web.Models
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdViaje { get; set; }
-        [Required(ErrorMessage = "Proprocione nombre al viaje"), StringLength(128)]
+        [Required(ErrorMessage = "Proprocione nombre al Proceso"), StringLength(128),Display(Name ="Proceso")]
         public string Viaje { get; set; }
         [Display(Name = "Descripción"), Required(ErrorMessage = "Proprocione una descripción"), StringLength(256)]
         public string DescripcionViaje { get; set; }
@@ -33,6 +33,8 @@ namespace web.Models
         public ViasViaje ViaViaje { get; set; }
         [Required(ErrorMessage = "La clasificación es requerida"), Display(Name = "Clasificación")]
         public ClasificacionViaje ClasificacionViaje { get; set; }
+        [StringLength(50),Display(Name ="Especifique")]
+        public string ClasificacionOtro { get; set; }
         [ForeignKey("Usuario")]
         public string IdUsuarioViaja { get; set; }
         [ForeignKey("Origen"), Display(Name = "Origen"), Required(ErrorMessage = "El origen no ha sido establecido")]
@@ -47,9 +49,11 @@ namespace web.Models
         {
             get
             {
-                return (FechaFin-FechaInicio).Days;
+                return (FechaFin-FechaInicio).Days + 1;
             }
         }
 
+        public ICollection<LiquidacionesViaje> LiquidacionesViaje { get; set; }
+        public ICollection<Anticipos> Anticipos { get; set; }
     }
 }

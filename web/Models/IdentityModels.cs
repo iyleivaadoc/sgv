@@ -13,6 +13,8 @@ namespace web.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         [Required(ErrorMessage = "El nombre es requerido.")]
         public string Nombres { get; set; }
         [Required(ErrorMessage = "El apellido es requerido.")]
@@ -25,7 +27,7 @@ namespace web.Models
         public string CentroCosto { get; set; }
         [ForeignKey("Departamento"), Display(Name = "Dirección reporta")]
         public int? IdDepartamento { get; set; }
-        [ForeignKey("Pais"), Display(Name ="País")]
+        [ForeignKey("Pais"), Display(Name = "País")]
         public int? IdPais { get; set; }
         public bool Eliminado { get; set; }
         [Display(Name = "Dirección reporta")]
@@ -41,6 +43,25 @@ namespace web.Models
             get
             {
                 return Nombres + " " + Apellidos;
+            }
+        }
+        [StringLength(128)]
+        public string AprobadorSuplente { get; set; }
+
+        [NotMapped]
+        public string suplente
+        {
+            get
+            {
+                var us = db.Users.Find(AprobadorSuplente);
+                if (us != null)
+                {
+                    return us.FullName;
+                }
+                else
+                {
+                    return "";
+                }
             }
         }
 
@@ -94,5 +115,10 @@ namespace web.Models
         public DbSet<LiquidacionesViaje> LiquidacionesViaje { get; set; }
         public DbSet<DetallesLiquidacion> DetallesLiquidacion { get; set; }
         public DbSet<Moneda> Moneda { get; set; }
+        public DbSet<CuentasGasto> CuentasGasto { get; set; }
+        public DbSet<JefesCreditoContabilidad> JefesCreditoContabilidad { get; set; }
+        public DbSet<AsistenteTesoreria> AsistenteTesoreria { get; set; }
+        public DbSet<GastosIniciales> GastosIniciales { get; set; }
+
     }
 }

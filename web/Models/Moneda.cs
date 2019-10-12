@@ -11,7 +11,11 @@ namespace web.Models
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdMoneda { get; set; }
+        [Required]
         public string MonedaCambio { get; set; }
+        [StringLength(5)]
+        public string Simbolo { get; set; }
+        [Required]
         public double TasaCambio { get; set; }
         [ForeignKey("Pais")]
         public int IdPais { get; set; }

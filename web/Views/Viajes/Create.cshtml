@@ -1,7 +1,7 @@
 ﻿@model web.Models.Viajes
 
 @{
-    ViewBag.Title = "Registrar viaje";
+    ViewBag.Title = "Registrar proceso";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,7 +11,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal col-md-6 col-md-offset-3">
-        <h4>Registrar nuevo viaje</h4>
+        <h4>Registrar nuevo proceso</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -70,6 +70,14 @@
             </div>
         </div>
 
+        <div id="otro" class="form-group" style="display:none">
+            @Html.LabelFor(model => model.ClasificacionOtro, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ClasificacionOtro, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ClasificacionOtro, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.ClasificacionViaje, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -77,6 +85,9 @@
                 @Html.ValidationMessageFor(model => model.ClasificacionViaje, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        
+
         @Html.HiddenFor(model => model.IdUsuarioViaja)
         @Html.HiddenFor(model=>model.UsuarioCrea)
         @Html.HiddenFor(model => model.UsuarioMod)
@@ -94,6 +105,12 @@
     </div>
 }
 
-<div>
-    
-</div>
+<script>
+    $("#ViaViaje").on("change", function () {
+        if ($("#ViaViaje").get(0).value == 3) {
+            $("#otro").show();
+        }else {
+            $("#otro").hide();
+        }
+    })
+</script>

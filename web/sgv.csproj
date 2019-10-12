@@ -44,6 +44,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.94.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.94.2\lib\net40\ClosedXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.3.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.0.3\lib\net20\ExcelNumberFormat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FastMember, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.1.3.0\lib\net45\FastMember.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -88,6 +104,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Linq.Dynamic.Core, Version=1.0.9.0, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.Core.1.0.9\lib\net45\System.Linq.Dynamic.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -148,6 +168,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -208,64 +229,81 @@
     <Compile Include="Controllers\AccesosController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AnticiposController.cs" />
+    <Compile Include="Controllers\AprobarController.cs" />
+    <Compile Include="Controllers\AsistenteTesoreriaController.cs" />
     <Compile Include="Controllers\CalendarioController.cs" />
     <Compile Include="Controllers\ConceptosAdicionalesController.cs" />
+    <Compile Include="Controllers\DepartamentosController.cs" />
+    <Compile Include="Controllers\DesbloquearController.cs" />
     <Compile Include="Controllers\DetallesLiquidacionsController.cs" />
+    <Compile Include="Controllers\EstatusController.cs" />
+    <Compile Include="Controllers\ExcelResult.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
+    <Compile Include="Controllers\SustitutoController.cs" />
+    <Compile Include="Migrations\201910070259289_gastosiniciales.cs" />
+    <Compile Include="Migrations\201910070259289_gastosiniciales.Designer.cs">
+      <DependentUpon>201910070259289_gastosiniciales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910070322035_gastosiniciales1.cs" />
+    <Compile Include="Migrations\201910070322035_gastosiniciales1.Designer.cs">
+      <DependentUpon>201910070322035_gastosiniciales1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910072016228_correlativos.cs" />
+    <Compile Include="Migrations\201910072016228_correlativos.Designer.cs">
+      <DependentUpon>201910072016228_correlativos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910072050497_correlativos1.cs" />
+    <Compile Include="Migrations\201910072050497_correlativos1.Designer.cs">
+      <DependentUpon>201910072050497_correlativos1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910101724286_clasifgasto.cs" />
+    <Compile Include="Migrations\201910101724286_clasifgasto.Designer.cs">
+      <DependentUpon>201910101724286_clasifgasto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GastosIniciales.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JefesCreditoContabilidadsController.cs" />
     <Compile Include="Controllers\LiquidacionesViajesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MonedasController.cs" />
     <Compile Include="Controllers\OwnController.cs" />
+    <Compile Include="Controllers\PaisesController.cs" />
+    <Compile Include="Controllers\ProcesarController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\ValidarController.cs" />
     <Compile Include="Controllers\ViajesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909062127252_pais.cs" />
-    <Compile Include="Migrations\201909062127252_pais.Designer.cs">
-      <DependentUpon>201909062127252_pais.cs</DependentUpon>
+    <Compile Include="Migrations\201910031934297_asistente.cs" />
+    <Compile Include="Migrations\201910031934297_asistente.Designer.cs">
+      <DependentUpon>201910031934297_asistente.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909101534191_prueb.cs" />
-    <Compile Include="Migrations\201909101534191_prueb.Designer.cs">
-      <DependentUpon>201909101534191_prueb.cs</DependentUpon>
+    <Compile Include="Migrations\201910061624183_ceco.cs" />
+    <Compile Include="Migrations\201910061624183_ceco.Designer.cs">
+      <DependentUpon>201910061624183_ceco.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909101736377_prueba.cs" />
-    <Compile Include="Migrations\201909101736377_prueba.Designer.cs">
-      <DependentUpon>201909101736377_prueba.cs</DependentUpon>
+    <Compile Include="Migrations\201910061629248_ceco1.cs" />
+    <Compile Include="Migrations\201910061629248_ceco1.Designer.cs">
+      <DependentUpon>201910061629248_ceco1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909102016437_prueba2.cs" />
-    <Compile Include="Migrations\201909102016437_prueba2.Designer.cs">
-      <DependentUpon>201909102016437_prueba2.cs</DependentUpon>
+    <Compile Include="Migrations\201910061646302_ceco2.cs" />
+    <Compile Include="Migrations\201910061646302_ceco2.Designer.cs">
+      <DependentUpon>201910061646302_ceco2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909102023035_prueba21.cs" />
-    <Compile Include="Migrations\201909102023035_prueba21.Designer.cs">
-      <DependentUpon>201909102023035_prueba21.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909131441159_liquidacion.cs" />
-    <Compile Include="Migrations\201909131441159_liquidacion.Designer.cs">
-      <DependentUpon>201909131441159_liquidacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909131459139_liquidacion-persona.cs" />
-    <Compile Include="Migrations\201909131459139_liquidacion-persona.Designer.cs">
-      <DependentUpon>201909131459139_liquidacion-persona.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909171950019_cambiotital.cs" />
-    <Compile Include="Migrations\201909171950019_cambiotital.Designer.cs">
-      <DependentUpon>201909171950019_cambiotital.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909232102393_moneda.cs" />
-    <Compile Include="Migrations\201909232102393_moneda.Designer.cs">
-      <DependentUpon>201909232102393_moneda.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909232108335_moneda1.cs" />
-    <Compile Include="Migrations\201909232108335_moneda1.Designer.cs">
-      <DependentUpon>201909232108335_moneda1.cs</DependentUpon>
+    <Compile Include="Migrations\201910061715073_ceco3.cs" />
+    <Compile Include="Migrations\201910061715073_ceco3.Designer.cs">
+      <DependentUpon>201910061715073_ceco3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Accesos.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Anticipos.cs" />
+    <Compile Include="Models\AsistenteTesoreria.cs" />
+    <Compile Include="Models\JefesCreditoContabilidad.cs" />
     <Compile Include="Models\ConceptosAdicionales.cs" />
+    <Compile Include="Models\CuentasGasto.cs" />
     <Compile Include="Models\DetallesLiquidacion.cs" />
     <Compile Include="Models\HuellaAuditoria.cs" />
     <Compile Include="Models\LiquidacionesViaje.cs" />
@@ -290,8 +328,10 @@
       <DependentUpon>Strings.en.resx</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AprobadorVM.cs" />
     <Compile Include="ViewModels\menuItemVM.cs" />
     <Compile Include="ViewModels\PermisosVM.cs" />
+    <Compile Include="ViewModels\ReporteriaVM.cs" />
     <Compile Include="ViewModels\RolesUsuarioVM.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -319,6 +359,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fondo1.jpg" />
+    <Content Include="Content\AprobarViatico.html" />
     <Content Include="Content\Liquidacion.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Styles.css" />
@@ -330,35 +371,35 @@
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EmbeddedResource Include="Migrations\201909062127252_pais.resx">
-      <DependentUpon>201909062127252_pais.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910031934297_asistente.resx">
+      <DependentUpon>201910031934297_asistente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909101534191_prueb.resx">
-      <DependentUpon>201909101534191_prueb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910061624183_ceco.resx">
+      <DependentUpon>201910061624183_ceco.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909101736377_prueba.resx">
-      <DependentUpon>201909101736377_prueba.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910061629248_ceco1.resx">
+      <DependentUpon>201910061629248_ceco1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909102016437_prueba2.resx">
-      <DependentUpon>201909102016437_prueba2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910061646302_ceco2.resx">
+      <DependentUpon>201910061646302_ceco2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909102023035_prueba21.resx">
-      <DependentUpon>201909102023035_prueba21.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910061715073_ceco3.resx">
+      <DependentUpon>201910061715073_ceco3.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909131441159_liquidacion.resx">
-      <DependentUpon>201909131441159_liquidacion.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910070259289_gastosiniciales.resx">
+      <DependentUpon>201910070259289_gastosiniciales.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909131459139_liquidacion-persona.resx">
-      <DependentUpon>201909131459139_liquidacion-persona.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910070322035_gastosiniciales1.resx">
+      <DependentUpon>201910070322035_gastosiniciales1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909171950019_cambiotital.resx">
-      <DependentUpon>201909171950019_cambiotital.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910072016228_correlativos.resx">
+      <DependentUpon>201910072016228_correlativos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909232102393_moneda.resx">
-      <DependentUpon>201909232102393_moneda.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910072050497_correlativos1.resx">
+      <DependentUpon>201910072050497_correlativos1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909232108335_moneda1.resx">
-      <DependentUpon>201909232108335_moneda1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910101724286_clasifgasto.resx">
+      <DependentUpon>201910101724286_clasifgasto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resourses\Strings.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -366,9 +407,8 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="Content\bloqueo.png" />
+    <None Include="Properties\PublishProfiles\publicacionSGV.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -464,6 +504,54 @@
     <Content Include="Views\DetallesLiquidacions\Details.cshtml" />
     <Content Include="Views\DetallesLiquidacions\Edit.cshtml" />
     <Content Include="Views\DetallesLiquidacions\Index.cshtml" />
+    <Content Include="Views\Aprobar\IndexAnticipo.cshtml" />
+    <Content Include="Views\Aprobar\AprobarDenegar.cshtml" />
+    <Content Include="Views\Paises\Create.cshtml" />
+    <Content Include="Views\Paises\Delete.cshtml" />
+    <Content Include="Views\Paises\Details.cshtml" />
+    <Content Include="Views\Paises\Edit.cshtml" />
+    <Content Include="Views\Paises\Index.cshtml" />
+    <Content Include="Views\Monedas\Create.cshtml" />
+    <Content Include="Views\Monedas\Delete.cshtml" />
+    <Content Include="Views\Monedas\Details.cshtml" />
+    <Content Include="Views\Monedas\Edit.cshtml" />
+    <Content Include="Views\Monedas\Index.cshtml" />
+    <Content Include="Views\Departamentos\Create.cshtml" />
+    <Content Include="Views\Departamentos\Delete.cshtml" />
+    <Content Include="Views\Departamentos\Details.cshtml" />
+    <Content Include="Views\Departamentos\Edit.cshtml" />
+    <Content Include="Views\Departamentos\Index.cshtml" />
+    <Content Include="Views\JefesCreditoContabilidads\Create.cshtml" />
+    <Content Include="Views\JefesCreditoContabilidads\Delete.cshtml" />
+    <Content Include="Views\JefesCreditoContabilidads\Details.cshtml" />
+    <Content Include="Views\JefesCreditoContabilidads\Edit.cshtml" />
+    <Content Include="Views\JefesCreditoContabilidads\Index.cshtml" />
+    <Content Include="Views\Aprobar\IndexLiquidacion.cshtml" />
+    <Content Include="Views\Aprobar\AprobarDenegarLiq.cshtml" />
+    <Content Include="Views\Aprobar\EditDet.cshtml" />
+    <Content Include="Views\Validar\Index.cshtml" />
+    <Content Include="Views\Validar\ValidarLiq.cshtml" />
+    <Content Include="Views\Validar\EditDet.cshtml" />
+    <Content Include="Views\AsistenteTesoreria\Create.cshtml" />
+    <Content Include="Views\AsistenteTesoreria\Delete.cshtml" />
+    <Content Include="Views\AsistenteTesoreria\Details.cshtml" />
+    <Content Include="Views\AsistenteTesoreria\Edit.cshtml" />
+    <Content Include="Views\AsistenteTesoreria\Index.cshtml" />
+    <Content Include="Views\Procesar\IndexAnticipo.cshtml" />
+    <Content Include="Views\Procesar\AprobarDenegar.cshtml" />
+    <Content Include="Views\Procesar\IndexLiquidacion.cshtml" />
+    <Content Include="Views\Procesar\AprobarDenegarLiq.cshtml" />
+    <Content Include="Views\Procesar\EditDet.cshtml" />
+    <Content Include="Views\Procesar\IndexLiquidacionTesoreria.cshtml" />
+    <Content Include="Views\Procesar\EditDetTesoreria.cshtml" />
+    <Content Include="Views\Procesar\AprobarDenegarLiqTesoreria.cshtml" />
+    <Content Include="Views\Desbloquear\Index.cshtml" />
+    <Content Include="Views\Desbloquear\DesbloquearAnular.cshtml" />
+    <Content Include="Views\Estatus\IndexAnticipo.cshtml" />
+    <Content Include="Views\Estatus\IndexLiquidacion.cshtml" />
+    <Content Include="Views\Sustituto\AprobadorSustituto.cshtml" />
+    <Content Include="Views\Sustituto\Index.cshtml" />
+    <Content Include="Views\Reportes\LiquidacionesUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -474,7 +562,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resourses\Strings.resx">

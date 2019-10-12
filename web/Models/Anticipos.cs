@@ -21,11 +21,15 @@ namespace web.Models
         public double TotalAsignado { get; set; }
         [Display(Name ="Total")]
         public double TotalViaje { get; set; }
+        [Display(Name ="Número de solicitud"),StringLength(5)]
+        public string NoSolicitud { get; set; }
         [Display(Name ="Tasa de cambio")]
         public double TasaCambioApp { get; set; }
         public Estado IdEstado { get; set; }
         [ForeignKey("Viaje")]
         public int IdViaje { get; set; }
+        [StringLength(128)]
+        public string UsuarioAutoriza { get; set; }
         public virtual Viajes Viaje { get; set; }
         public ICollection<ConceptosAdicionales> ConceptosAdicionales { get; set; }
     }

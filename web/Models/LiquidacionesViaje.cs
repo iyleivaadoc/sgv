@@ -24,6 +24,10 @@ namespace web.Models
         public int IdViaje { get; set; }
         [ForeignKey("Moneda")]
         public int IdMoneda { get; set; }
+        [StringLength(128)]
+        public string UsuarioAutoriza { get; set; }
+        [Display(Name = "Número de solicitud"), StringLength(5)]
+        public string NoSolicitud { get; set; }
         public virtual Viajes Viaje { get; set; }
         public Moneda Moneda { get; set; }
         public ICollection<DetallesLiquidacion> DetallesLiquidacion { get; set; }

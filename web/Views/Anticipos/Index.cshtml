@@ -13,10 +13,12 @@
         <h3>@Model.Viaje.Viaje</h3>
         <div class="row">
             <div class="col-md-12">
+                <div class="text-right">Proceso No: @Model.NoSolicitud</div>
+                @Html.HiddenFor(model=>model.NoSolicitud)
                 <div class="col-md-12 well well-sm" style="margin-bottom:-1px;">
                     <label>1. DATOS GENERALES DEL SOLICITANTE</label>
                 </div>
-                @{ var usuario = ViewBag.usuario;}
+                @{ var usuario = Model.Viaje.Usuario;}
                 <table class="table table-striped table-bordered">
                     <tbody>
                         <tr>
@@ -58,7 +60,7 @@
             @Html.HiddenFor(m => m.IdAnticipo)
             <div class="col-md-12">
                 <div class="col-md-12 well well-sm" style="margin-bottom:-1px;">
-                    <label>2. DATOS DEL VIAJE</label>
+                    <label>2. DATOS DEL PROCESO</label>
                 </div>
                 <table class="table table-striped table-bordered">
                     <tr>
@@ -67,15 +69,26 @@
                         <td style="padding: 0px;padding-left: 10px;" colspan="2">Hacia: @Model.Viaje.Destino.Pais</td>
                     </tr>
                     <tr>
-                        <td style="padding: 0px;padding-left: 10px;">CLASIFICACIÓN DEL VIAJE</td>
+                        <td style="padding: 0px;padding-left: 10px;">CLASIFICACIÓN</td>
                         <td style="padding: 0px;padding-left: 10px;" colspan="3">@Model.Viaje.ClasificacionViaje</td>
                     </tr>
                     <tr>
                         <td style="padding: 0px;padding-left: 10px;">VÍA</td>
-                        <td style="padding: 0px;padding-left: 10px;" colspan="3">@Model.Viaje.ViaViaje</td>
+                        @{
+                            var texto = "";
+                            if (Model.Viaje.ViaViaje == web.Models.ViasViaje.Otra)
+                            {
+                                texto = ": " + Model.Viaje.ClasificacionOtro;
+                            }
+                            else
+                            {
+                                texto = "";
+                            }
+                        }
+                        <td style="padding: 0px;padding-left: 10px;" colspan="3">@Model.Viaje.ViaViaje@texto</td>
                     </tr>
                     <tr>
-                        <td style="padding: 0px;padding-left: 10px;">PERÍODO DE VIAJE</td>
+                        <td style="padding: 0px;padding-left: 10px;">PERÍODO DEL PROCESO</td>
                         <td style="padding: 0px;padding-left: 10px;">Desde: @Model.Viaje.FechaInicio.ToShortDateString()</td>
                         <td style="padding: 0px;padding-left: 10px;">Hasta: @Model.Viaje.FechaFin.ToShortDateString()</td>
                         <td style="padding: 0px;padding-left: 10px;">Días: @Model.Viaje.Duracion</td>
@@ -101,7 +114,7 @@
                         <td style="background-color:white; border:none;"> </td>
                     </tr>
                     <tr>
-                        <th style="padding: 0px; padding-left: 8px;">EL TOTAL DE VIÁTICOS ASIGNADOS AL VIAJE ES</th>
+                        <th style="padding: 0px; padding-left: 8px;">EL TOTAL DE VIÁTICOS ASIGNADOS AL PROCESO ES</th>
                         <td style="padding: 0px; text-align:right; width: 15%; padding-right: 8px;">@Model.TotalAsignado</td>
                         <td></td>
                     </tr>
@@ -121,7 +134,7 @@
                         }
                     }
                     <tr>
-                        <th style="padding: 0px; background-color:gray; color:black; padding-left: 8px;">TOTAL ASIGNADO AL VIAJE</th>
+                        <th style="padding: 0px; background-color:gray; color:black; padding-left: 8px;">TOTAL ASIGNADO AL PROCESO</th>
                         <td style="padding: 0px; text-align:right; background-color:gray; color:black; padding-right: 8px;">@Model.TotalViaje</td>
                         <td style="background-color:gray; color:black;"></td>
                     </tr>
@@ -157,4 +170,4 @@
             @Html.ActionLink("Eliminar", "Delete", new { id = Model.IdAnticipo }, new { @class = "btn btn-danger", @title = "Esto eliminará la solicitud de anticipo" })
         }
     </div>
-  }
+                        }
