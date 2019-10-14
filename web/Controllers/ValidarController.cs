@@ -99,7 +99,7 @@ namespace web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var liquidacion = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id).Include(a => a.Viaje.Usuario).SingleOrDefault();
-            if (liquidacion.TotalAnticipo - liquidacion.TotalAsignado <= 0)
+            if ((liquidacion.TotalAnticipo*liquidacion.TasaCambio) - liquidacion.TotalAsignado <= 0)
             {
                 liquidacion.IdEstado = Estado.Validado;
             }
@@ -111,7 +111,7 @@ namespace web.Controllers
             db.Entry(liquidacion).State = EntityState.Modified;
             Session["MyAlert"] = "<script type='text/javascript'>alertify.success('Proceso finalizado.');</script>";
             db.SaveChanges();
-            if (liquidacion.TotalAnticipo - liquidacion.TotalAsignado <= 0)
+            if ((liquidacion.TotalAnticipo*liquidacion.TasaCambio) - liquidacion.TotalAsignado <= 0)
             {
                 string readText = System.IO.File.ReadAllText(@"C:\FormatosCorreo\ValidacionAprobada.html");
                 string readText2 = System.IO.File.ReadAllText(@"C:\FormatosCorreo\AprobarLiquidacion.html");
