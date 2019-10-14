@@ -57,7 +57,7 @@
                     @Html.DisplayFor(modelItem => item.Viaje.Viaje)
                 </td>
                 <td style="text-align:right; padding-right:10px;">
-                    @{ var tl = (item.TotalAnticipo - item.TotalAsignado).ToString("$###,##0.00"); }
+                    @{ var tl = (item.TotalAnticipo - (item.TotalAsignado*item.TasaCambio)).ToString("$###,##0.00"); }
                     @Html.DisplayFor(modelItem => tl)
                 </td>
                 <td>

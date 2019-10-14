@@ -57,8 +57,8 @@
                     @Html.DisplayFor(modelItem => item.Viaje.Viaje)
                 </td>
                 <td  style="text-align:right; padding-right:10px;">
-                    @{ var ta = item.TotalAsignado.ToString("###,##0.00");}
-                    @Html.DisplayFor(modelItem => item.TotalAsignado)
+                    @{ var ta = (item.TotalAnticipo-(item.TotalAsignado*item.TasaCambio)).ToString("###,##0.00");}
+                    @Html.DisplayFor(modelItem => ta)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Moneda.MonedaCambio)

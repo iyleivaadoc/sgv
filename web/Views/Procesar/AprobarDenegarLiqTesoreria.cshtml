@@ -143,13 +143,13 @@
                 <tr><td colspan="5" style="margin-top:8px; background-color:white; border-right-color:white;border-left-color:white;"></td></tr>
                 <tr>
                     <th colspan="3" style="background-color:gray; color:black;">TOTAL LIQUIDACIÓN (ȼ) ($)</th>
-                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@Html.DisplayFor(model => Model.TotalAsignado, new { @DataFormatString = "{0:N}" })</th>
-                    @{var ta = Math.Round((Model.TotalAsignado * Model.TasaCambio), 2);}
+                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@Html.DisplayFor(model => Model.TotalAsignado, new { })</th>
+                    @{var ta = Math.Round((Model.TotalAsignado * Model.TasaCambio), 2).ToString("###,##0.00");}
                     <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">
                         @Html.DisplayFor(model => ta)
                     </th>
                 </tr>
-                <tr>
+                @*<tr>
                     <th colspan="3" style="background-color:gray; color:black;">TOTAL ANTICIPO OTORGADO (ȼ) ($)</th>
                     <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@Model.TotalAnticipo</th>
                     @{ var tan = Math.Round((Model.TotalAnticipo * Model.TasaCambio), 2);}
@@ -160,6 +160,22 @@
                     @{var dif = Model.TotalAnticipo - Model.TotalAsignado; }
                     <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@dif</th>
                     @{ var dif2 = Math.Round((dif * Model.TasaCambio), 2);}
+                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@dif2</th>
+                </tr>*@
+                <tr>
+                    <th colspan="3" style="background-color:gray; color:black;">TOTAL ANTICIPO OTORGADO (ȼ) ($)</th>
+                    @{ var tan1 = Math.Round((Model.TotalAnticipo / Model.TasaCambio), 2).ToString("###,##0.00");}
+                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@tan1</th>
+                    @*@{ var tan = Math.Round((Model.TotalAnticipo * Model.TasaCambio), 2);}*@
+                    @{ var tan = Math.Round((Model.TotalAnticipo * 1), 2);}
+                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@tan</th>
+                </tr>
+                <tr>
+                    <th colspan="3" style="background-color:gray; color:black;">DIFERENCIA (ȼ) ($)</th>
+                    @{var dif = ((Model.TotalAnticipo / Model.TasaCambio) - Model.TotalAsignado);
+                        var dif3 = dif.ToString("###,##0.00"); }
+                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@dif3</th>
+                    @{ var dif2 = Math.Round((dif * Model.TasaCambio), 2).ToString("###,##0.00");}
                     <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@dif2</th>
                 </tr>
             </table>
