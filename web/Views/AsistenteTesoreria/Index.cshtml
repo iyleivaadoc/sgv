@@ -1,34 +1,35 @@
 ﻿@model IEnumerable<web.Models.AsistenteTesoreria>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Asistentes de tesorería";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="col-md-offset-3 col-md-6">
+    <h2>Asistentes de tesorería</h2>
+    <p>
+        @Html.ActionLink("Añadir Asistente de tesorería", "Create", null, new { @class = "btn btn-success" })
+    </p>
+    <table class="table table-bordered table-hover table-responsive table-striped">
+        <tr>
+            <th>
+                @Html.DisplayName("Asistente")
+            </th>
+            <th>Opciones</th>
+        </tr>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Asistente.Nombres)
-        </th>
-        <th></th>
-    </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Asistente.FullName)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.IdAsistente }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.IdAsistente })
+                </td>
+            </tr>
+        }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Asistente.Nombres)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdAsistente }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdAsistente }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdAsistente })
-        </td>
-    </tr>
-}
-
-</table>
+    </table>
+</div>

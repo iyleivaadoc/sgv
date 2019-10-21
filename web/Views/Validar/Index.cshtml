@@ -33,16 +33,16 @@
                 @Html.DisplayName("Proceso")
             </th>
             <th>
-                @Html.DisplayName("Total liquidación")
+                @Html.DisplayName("Total liquidación (Moneda local)")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().TotalAnticipo)
+                @Html.DisplayName("Anticipo (Moneda local)")
             </th>
             <th>
-                @Html.DisplayName("Diferencia")
+                @Html.DisplayName("Diferencia (Moneda local)")
             </th>
             <th>
-                @Html.DisplayName("Moneda")
+                @Html.DisplayName("Moneda de cambio")
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().TasaCambio)
@@ -63,14 +63,14 @@
                     @Html.DisplayFor(modelItem => item.Viaje.Viaje)
                 </td>
                 <td style="text-align:right; padding-right:10px;">
-                    @{ var ta = (item.TotalAsignado*item.TasaCambio).ToString("###,###.00");}
+                    @{ var ta = (item.TotalAsignado*item.TasaCambio).ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo+"###,###.00");}
                     @Html.DisplayFor(modelItem => ta)
                 </td>
                 <td style="text-align:right; padding-right:10px;">
-                    @{ var tan = item.TotalAnticipo.ToString("###,###.00");}
+                    @{ var tan = item.TotalAnticipo.ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,###.00");}
                     @Html.DisplayFor(modelItem => tan)
                 </td>
-                @{ var a = (item.TotalAnticipo - (item.TotalAsignado*item.TasaCambio)).ToString("###,###.00");}
+                @{ var a = (item.TotalAnticipo - (item.TotalAsignado*item.TasaCambio)).ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,###.00");}
                 <td style="text-align:right; padding-right:10px;">
                     @Html.DisplayFor(modelItem => a)
                 </td>
@@ -78,7 +78,7 @@
                     @Html.DisplayFor(modelItem => item.Moneda.MonedaCambio)
                 </td>
                 <td style="text-align:right; padding-right:10px;">
-                    @{ var tc = item.TasaCambio.ToString("###,##0.00");}
+                    @{ var tc = item.TasaCambio.ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,##0.0000");}
                     @Html.DisplayFor(modelItem => tc)
                 </td>
 

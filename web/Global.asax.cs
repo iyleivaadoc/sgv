@@ -16,6 +16,7 @@ namespace web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            Controllers.JobScheduler.Start();
         }
     }
 }

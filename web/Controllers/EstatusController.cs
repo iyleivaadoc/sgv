@@ -16,7 +16,7 @@ namespace web.Controllers
         public ActionResult IndexAnticipo(int? page, string searchString)
         {
             var idUsuario = GetUserId(User);
-            var anticipos = db.Anticipos.Where(a=>a.Eliminado != true && a.Viaje.IdUsuarioViaja == idUsuario).Include(a => a.Viaje);
+            var anticipos = db.Anticipos.Where(a=>a.Eliminado != true && a.Viaje.IdUsuarioViaja == idUsuario).Include(a => a.Viaje.Usuario.Pais.Moneda);
             if (!String.IsNullOrEmpty(searchString))
             {
                 anticipos = anticipos.Where(s => s.NoSolicitud.Contains(searchString)
@@ -32,7 +32,7 @@ namespace web.Controllers
         public ActionResult IndexLiquidacion(int? page, string searchString)
         {
             var idUsuario = GetUserId(User);
-            var liquidaciones = db.LiquidacionesViaje.Where(a => a.Eliminado != true && a.Viaje.IdUsuarioViaja == idUsuario).Include(a => a.Viaje).Include(a=>a.Moneda);
+            var liquidaciones = db.LiquidacionesViaje.Where(a => a.Eliminado != true && a.Viaje.IdUsuarioViaja == idUsuario).Include(a => a.Viaje.Usuario.Pais.Moneda).Include(a=>a.Moneda);
             if (!String.IsNullOrEmpty(searchString))
             {
                 liquidaciones = liquidaciones.Where(s => s.NoSolicitud.Contains(searchString)

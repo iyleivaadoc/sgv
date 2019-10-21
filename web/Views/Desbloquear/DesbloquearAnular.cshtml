@@ -25,7 +25,7 @@
                         </tr>
                         <tr>
                             <td style="padding: 0px;padding-left: 10px;">Cargo laboral</td>
-                            <td style="padding: 0px;padding-left: 10px;"></td>
+                            <td style="padding: 0px;padding-left: 10px;">@usuario.Puesto</td>
                         </tr>
                         <tr>
                             <td style="padding: 0px;padding-left: 10px;">Jerarquía</td>
@@ -112,20 +112,20 @@
                     </tr>
                     <tr>
                         <th style="padding: 0px; padding-left: 8px;">EL TOTAL DE VIÁTICOS ASIGNADOS AL VIAJE ES</th>
-                        <td style="padding: 0px; text-align:right; width: 15%; padding-right: 8px;">@Model.TotalAsignado</td>
+                        <td style="padding: 0px; text-align:right; width: 15%; padding-right: 8px;">@Model.TotalAsignado.ToString(Model.Viaje.Usuario.Pais.Moneda.First().Simbolo+"###,##0.00")</td>
                     </tr>
 
                     @{ foreach (var item in Model.ConceptosAdicionales.Where(c => c.Eliminado != true))
                         {
                             <tr>
                                 <th style="padding: 0px; padding-left: 8px; vertical-align: middle;">@item.Concepto</th>
-                                <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.Monto</td>
+                                <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.Monto.ToString(Model.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,##0.00")</td>
                             </tr>
                         }
                     }
                     <tr>
                         <th style="padding: 0px; background-color:gray; color:black; padding-left: 8px;">TOTAL ASIGNADO AL VIAJE</th>
-                        <td style="padding: 0px; text-align:right; background-color:gray; color:black; padding-right: 8px;">@Model.TotalViaje</td>
+                        <td style="padding: 0px; text-align:right; background-color:gray; color:black; padding-right: 8px;">@Model.TotalViaje.ToString(Model.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,##0.00")</td>
                     </tr>
                     <tr>
                         <th style="background-color:white; border:none;"> </th>
@@ -133,7 +133,7 @@
                     </tr>
                     <tr>
                         <th style="padding: 0px; background-color:gray; color:black; padding-left: 8px;">EL TOTAL A ANTICIPAR ES</th>
-                        <td style="padding: 0px; text-align:right; background-color:gray; color:black; padding-right: 8px;">@Model.TotalAnticipar</td>
+                        <td style="padding: 0px; text-align:right; background-color:gray; color:black; padding-right: 8px;">@Model.TotalAnticipar.ToString(Model.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,##0.00")</td>
                     </tr>
                 </table>
             </div>
@@ -142,7 +142,7 @@
     </div>
     <div class="row" style="text-align:center;">
         @Html.ActionLink("Regresar", "Index", new { }, new { @class = "btn btn-info", @title = "Atrás", @style = "margin-right: 4px;" })
-        @Html.ActionLink("Aprobar", "Desbloquear", new { id = Model.IdAnticipo }, new { @class = "btn btn-success", @title = "Aprobar anticipo", @style = "margin-right: 4px;" })
+        @Html.ActionLink("Desbloquear", "Desbloquear", new { id = Model.IdAnticipo }, new { @class = "btn btn-success", @title = "Aprobar anticipo", @style = "margin-right: 4px;" })
         @Html.ActionLink("Eliminar", "Eliminar", new { id = Model.IdAnticipo }, new { @class = "btn btn-danger", @title = "Denegar anticipo" })
     </div>
                         }

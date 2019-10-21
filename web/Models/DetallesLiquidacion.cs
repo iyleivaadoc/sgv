@@ -7,24 +7,27 @@ using System.Web;
 
 namespace web.Models
 {
-    public class DetallesLiquidacion:HuellaAuditoria
+    public class DetallesLiquidacion : HuellaAuditoria
     {
-        [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdDetalleLiquidacion { get; set; }
-        [Display(Name ="Fecha gasto"),Required(ErrorMessage ="La Fecha del gasto es requerida."), DataType(DataType.Date), DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [Display(Name = "Fecha gasto"), Required(ErrorMessage = "La Fecha del gasto es requerida."), DataType(DataType.Date), DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime FechaGasto { get; set; }
-        [Display(Name ="Monto"),Required(ErrorMessage ="El Monto es requerido."),DisplayFormat(DataFormatString ="{0:N}")]
+        [Display(Name = "Monto"), Required(ErrorMessage = "El Monto es requerido."), DisplayFormat(DataFormatString = "{0:N}")]
         public double Monto { get; set; }
-        [Display(Name ="Centro de costo"),Required(ErrorMessage ="El centro de costos es requerido.")]
+        [Display(Name = "Centro de costo")]
         public string CentroCosto { get; set; }
-        [Display(Name ="Cuenta de gasto"),Required(ErrorMessage ="La cuenta de gasto es requerida.")]
+        [ForeignKey("PersonaCeCo")]
+        public string IdCeCo { get; set; }
+        [Display(Name = "Cuenta de gasto"), Required(ErrorMessage = "La cuenta de gasto es requerida.")]
         public string CuentaGasto { get; set; }
-        [Display(Name ="Comentarios del solicitante.")]
+        [Display(Name = "Comentarios del solicitante.")]
         public string ComentariosSolicitante { get; set; }
-        [Display(Name ="Comentarios de los aprobadores.")]
+        [Display(Name = "Comentarios de los aprobadores.")]
         public string ComentariosAprobador { get; set; }
         [ForeignKey("LiquidacionViaje")]
         public int IdLiquidacionViaje { get; set; }
         public virtual LiquidacionesViaje LiquidacionViaje { get; set; }
+        public virtual ApplicationUser PersonaCeCo { get; set; }
     }
 }

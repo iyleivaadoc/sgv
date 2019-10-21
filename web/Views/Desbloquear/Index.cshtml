@@ -52,14 +52,14 @@
                     @Html.DisplayFor(modelItem => item.Viaje.Viaje)
                 </td>
                 <td style="text-align:right; padding-right: 25px;">
-                    @{ var a = item.TotalViaje.ToString("###,##0.00");}
+                    @{ var a = item.TotalViaje.ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo+"###,##0.00");}
                     @Html.DisplayFor(modelItem => a)
                 </td>
                 <td style="text-align:center;">
                     @Html.DisplayFor(modelItem => item.Porcentaje) %
                 </td>
                 <td style="text-align:right; padding-right: 25px;">
-                    @{ var b = item.TotalAnticipar.ToString("###,##0.00");}
+                    @{ var b = item.TotalAnticipar.ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,##0.00");}
                     @Html.DisplayFor(modelItem => b)
                 </td>
 

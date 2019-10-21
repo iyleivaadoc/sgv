@@ -48,6 +48,14 @@
       <HintPath>..\packages\ClosedXML.0.94.2\lib\net40\ClosedXML.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
       <Private>True</Private>
@@ -99,6 +107,10 @@
     </Reference>
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Quartz, Version=2.3.3.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.2.3.3\lib\net40\Quartz.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -238,6 +250,8 @@
     <Compile Include="Controllers\DetallesLiquidacionsController.cs" />
     <Compile Include="Controllers\EstatusController.cs" />
     <Compile Include="Controllers\ExcelResult.cs" />
+    <Compile Include="Controllers\Jobclass.cs" />
+    <Compile Include="Controllers\JobScheduler.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\SustitutoController.cs" />
     <Compile Include="Migrations\201910070259289_gastosiniciales.cs" />
@@ -259,6 +273,26 @@
     <Compile Include="Migrations\201910101724286_clasifgasto.cs" />
     <Compile Include="Migrations\201910101724286_clasifgasto.Designer.cs">
       <DependentUpon>201910101724286_clasifgasto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910141708041_personaCeco.cs" />
+    <Compile Include="Migrations\201910141708041_personaCeco.Designer.cs">
+      <DependentUpon>201910141708041_personaCeco.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910141726216_personaCeco1.cs" />
+    <Compile Include="Migrations\201910141726216_personaCeco1.Designer.cs">
+      <DependentUpon>201910141726216_personaCeco1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910152029483_obs.cs" />
+    <Compile Include="Migrations\201910152029483_obs.Designer.cs">
+      <DependentUpon>201910152029483_obs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910152224539_llave.cs" />
+    <Compile Include="Migrations\201910152224539_llave.Designer.cs">
+      <DependentUpon>201910152224539_llave.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910171525486_usuario.cs" />
+    <Compile Include="Migrations\201910171525486_usuario.Designer.cs">
+      <DependentUpon>201910171525486_usuario.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\GastosIniciales.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -401,12 +435,30 @@
     <EmbeddedResource Include="Migrations\201910101724286_clasifgasto.resx">
       <DependentUpon>201910101724286_clasifgasto.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910141708041_personaCeco.resx">
+      <DependentUpon>201910141708041_personaCeco.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910141726216_personaCeco1.resx">
+      <DependentUpon>201910141726216_personaCeco1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910152029483_obs.resx">
+      <DependentUpon>201910152029483_obs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910152224539_llave.resx">
+      <DependentUpon>201910152224539_llave.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910171525486_usuario.resx">
+      <DependentUpon>201910171525486_usuario.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resourses\Strings.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.en.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="Content\bloqueo.png" />
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\PublishProfiles\publicacionSGV.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

@@ -32,7 +32,7 @@
                     </tr>
                     <tr>
                         <td style="padding: 0px;padding-left: 10px;">Cargo laboral</td>
-                        <td style="padding: 0px;padding-left: 10px;"></td>
+                        <td style="padding: 0px;padding-left: 10px;">@usuario.Puesto</td>
                     </tr>
                     <tr>
                         <td style="padding: 0px;padding-left: 10px;">Jerarquía</td>
@@ -115,7 +115,7 @@
                     <th style="background-color:gray; color:black; vertical-align:middle;">MONEDA DE LIQUIDACIÓN</th>
                     <th colspan="2" style="background-color:white;">@Html.DropDownList("IdMoneda", null, htmlAttributes: new { @class = "form-control" })</th>
                     <th colspan="2" style="background-color:gray; color:black; vertical-align:middle;">TIPO DE CAMBIO</th>
-                    <th colspan="2" style="background-color:white;text-align:center;">@Html.EditorFor(model => model.TasaCambio, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = "0.01" } })</th>
+                    <th colspan="2" style="background-color:white;text-align:center;">@Html.EditorFor(model => model.TasaCambio, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = "0.00001" } })</th>
                     @*<th style="background-color:white; border-left-color:white;"></th>*@
                 </tr>
                 <tr>
@@ -131,7 +131,7 @@
                 {
             <tr>
                 <th style="padding: 0px; padding-left: 8px; vertical-align: middle;">@item.FechaGasto.ToShortDateString()</th>
-                <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.Monto</td>
+                <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.Monto.ToString(Model.Moneda.Simbolo+"###,##.00")</td>
                 <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.CentroCosto</td>
                 <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.CuentaGasto</td>
                 <td style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@item.ComentariosSolicitante</td>
@@ -148,34 +148,39 @@
                 }
                 <tr><td colspan="5" style="margin-top:8px; background-color:white; border-right-color:white;border-left-color:white;"></td></tr>
                 <tr>
-                    <th colspan="3" style="background-color:gray; color:black;">TOTAL LIQUIDACIÓN (ȼ) ($)</th>
-                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@Html.DisplayFor(model => Model.TotalAsignado, new { @DataFormatString = "{0:N}" })</th>
-                    @{var ta = Math.Round((Model.TotalAsignado * Model.TasaCambio), 2);}
+                    <td th colspan="3" style="background-color:gray; color:black;"></td>
+                    <td>Moneda país visitado</td>
+                    <td>Moneda país origen</td>
+                </tr>
+                <tr>
+                    <th colspan="3" style="background-color:gray; color:black;">TOTAL LIQUIDACIÓN</th>
+                    <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@Model.TotalAsignado.ToString(Model.Moneda.Simbolo+"###,##0.00")</th>
+                    @{var ta = Math.Round((Model.TotalAsignado * Model.TasaCambio), 2).ToString(Model.Viaje.Usuario.Pais.Moneda.First().Simbolo+"###,##0.00");}
                     <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">
                         @Html.DisplayFor(model => ta)
                     </th>
                 </tr>
                 <tr>
-                    <th colspan="3" style="background-color:gray; color:black;">TOTAL ANTICIPO OTORGADO (ȼ) ($)</th>
-                    @{ var tan1 = Math.Round((Model.TotalAnticipo / Model.TasaCambio), 2).ToString("###,##0.00");}
+                    <th colspan="3" style="background-color:gray; color:black;">TOTAL ANTICIPO OTORGADO</th>
+                    @{ var tan1 = Math.Round((Model.TotalAnticipo / Model.TasaCambio), 2).ToString(Model.Moneda.Simbolo + "###,##0.00");}
                     <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@tan1</th>
                     @*@{ var tan = Math.Round((Model.TotalAnticipo * Model.TasaCambio), 2);}*@
-                    @{ var tan = Math.Round((Model.TotalAnticipo * 1), 2);}
+                    @{ var tan = Math.Round((Model.TotalAnticipo * 1), 2).ToString(Model.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,##0.00");}
                     <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@tan</th>
                 </tr>
                 <tr>
-                    <th colspan="3" style="background-color:gray; color:black;">DIFERENCIA (ȼ) ($)</th>
+                    <th colspan="3" style="background-color:gray; color:black;">DIFERENCIA</th>
                     @{var dif = ((Model.TotalAnticipo/Model.TasaCambio) - Model.TotalAsignado);
-                        var dif3 = dif.ToString("###,##0.00"); }
+                        var dif3 = dif.ToString(Model.Moneda.Simbolo + "###,##0.00"); }
                     <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@dif3</th>
-                    @{ var dif2 = Math.Round((dif * Model.TasaCambio), 2);}
+                    @{ var dif2 = Math.Round((dif * Model.TasaCambio), 2).ToString(Model.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,##0.00");}
                     <th style="padding: 0px; text-align:right; padding-right: 8px; vertical-align: middle;">@dif2</th>
                 </tr>
             </table>
             <div class="text-center text-muted" style="font-size: 10px;">
                 <p>
                     1.Si el resultado es positivo, debes devolver a la empresa la diferencia. <br />
-                    2.Si el resultado es negativo, se pasará a aprovación para hacer el reintegro al empleado.
+                    2.Si el resultado es negativo, se pasará a aprobación para hacer el reintegro al empleado.
                 </p>
             </div>
         </div>
@@ -204,7 +209,10 @@
                         }
 <div class="text-center text-muted row" style="font-size: 13px; margin-top: 30px;">
     <p style="border: #03A9F4;border-style: dashed; padding: 5px;">
-        NOTA: Al terminar la liquidación debes presentar al área de créditos y cobros todos los comprobantes de gastos asociados a tu liquidación y la remesa (si aplica).
+        NOTA: <br />
+        1. Al terminar la liquidación debes presentar al área de créditos y cobros todos los comprobantes de gastos asociados a tu liquidación y la remesa (si aplica).<br />
+        2. Recuerda que los valores introducidos para la liquidación debe estar en la moneda del pais que visitaste.<br />
+        3. La tasa de cambio debe reflejar cuandas monedas de tu país hay en una unidad de la moneda del exterior a liquidar ejemplo: 1 Quetzal equivale a 0.13 Dolares.
     </p>
 </div>
 

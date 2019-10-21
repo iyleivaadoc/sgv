@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -23,10 +24,10 @@ namespace web.Controllers
             }
             //var idusuario = GetUserId(User);
             //ViewBag.usuario = UserManager.Users.Where(u => u.Id == idusuario).SingleOrDefault();
-            var liquidacionesViaje = db.LiquidacionesViaje.Where(a => a.IdViaje == idViaje && a.Eliminado != true).Include(l => l.Viaje).Include(l=>l.DetallesLiquidacion).SingleOrDefault();
+            var liquidacionesViaje = db.LiquidacionesViaje.Where(a => a.IdViaje == idViaje && a.Eliminado != true).Include(l => l.Viaje.Usuario.Pais.Moneda).Include(l=>l.DetallesLiquidacion).Include(l=>l.Moneda).SingleOrDefault();
             if (liquidacionesViaje != null)
             {
-                ViewBag.IdMoneda = new SelectList(db.Moneda.Where(m => m.Eliminado != true), "IdMoneda", "MonedaCambio", liquidacionesViaje.IdMoneda);
+                ViewBag.IdMoneda = new SelectList(db.Moneda.Where(m => m.Eliminado != true).DistinctBy(m=>m.TasaCambio), "IdMoneda", "MonedaCambio", liquidacionesViaje.IdMoneda);
                 return View(liquidacionesViaje);
             }else
             {
@@ -59,7 +60,7 @@ namespace web.Controllers
                 db.Entry(lv).State = EntityState.Added;
                 db.SaveChanges();
                 Session["MyAlert"] = "<script type='text/javascript'>alertify.success('Se creó la solicitud exitosamente.');</script>";
-                liquidacionesViaje = db.LiquidacionesViaje.Where(a => a.IdViaje == idViaje && a.Eliminado != true).Include(l => l.Viaje).Include(l => l.DetallesLiquidacion).SingleOrDefault();
+                liquidacionesViaje = db.LiquidacionesViaje.Where(a => a.IdViaje == idViaje && a.Eliminado != true).Include(l => l.Viaje.Usuario.Pais.Moneda).Include(l => l.DetallesLiquidacion).Include(l=>l.Moneda).SingleOrDefault();
                 ViewBag.IdMoneda = new SelectList(db.Moneda.Where(m => m.Eliminado != true), "IdMoneda", "MonedaCambio", liquidacionesViaje.IdMoneda);
                 return View(liquidacionesViaje);
             }
@@ -87,7 +88,7 @@ namespace web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var lv = db.LiquidacionesViaje.Where(l=>l.IdLiquidacionViaje==id).Include(l=>l.Viaje.Usuario.Pais).SingleOrDefault();
+            var lv = db.LiquidacionesViaje.Where(l=>l.IdLiquidacionViaje==id).Include(l=>l.Viaje.Usuario.Pais.Moneda).SingleOrDefault();
             lv.IdEstado = Estado.Terminado;
             lv.UsuarioMod = GetUserId(User);
             lv.FechaMod = DateTime.Now;
@@ -97,19 +98,19 @@ namespace web.Controllers
             if (lv.TotalAnticipo==0) {
                 var us = db.Users.Find(lv.UsuarioAutoriza);
                 string readText = System.IO.File.ReadAllText(@"C:\FormatosCorreo\AprobarLiquidacion.html");
-                readText=readText.Replace("$$nombre##", lv.Viaje.Usuario.FullName).Replace("$$$monto##", lv.TotalAsignado.ToString("$###,###.00"));
+                readText=readText.Replace("$$nombre##", lv.Viaje.Usuario.FullName).Replace("$$monto##", (lv.TotalAsignado * lv.TasaCambio).ToString(lv.Viaje.Usuario.Pais.Moneda.First().Simbolo+"###,###.00"));
                 if (!EnviarCorreo(us.Email, "Aprobación de liquidación", readText)) {
-                    Session["MyAlert"] += "  <script type='text/javascript'>alertify.error('no se pudo enviar la notificación a su jefe inmediato superior, favor notifique a sistemas.');</script>";
+                    Session["MyAlert"] += "  <script type='text/javascript'>alertify.error('no se pudo enviar la notificación al director de área, favor notifique a sistemas.');</script>";
                 }
             }else
             {
                 var jefe = db.JefesCreditoContabilidad.Where(j=>j.IdPais==lv.Viaje.Usuario.IdPais).FirstOrDefault();
                 var us =db.Users.Find(jefe.IdJefeUsuario);
                 string readText = System.IO.File.ReadAllText(@"C:\FormatosCorreo\ValidarLiquidacion.html");
-                readText = readText.Replace("$$nombre##", lv.Viaje.Usuario.FullName).Replace("$$$monto##", (lv.TotalAnticipo - lv.TotalAsignado).ToString("$ ###,###.00"));
+                readText = readText.Replace("$$nombre##", lv.Viaje.Usuario.FullName).Replace("$$monto##", (lv.TotalAnticipo - (lv.TotalAsignado * lv.TasaCambio)).ToString(lv.Viaje.Usuario.Pais.Moneda.First().Simbolo+"###,###.00"));
                 if (!EnviarCorreo(us.Email, "Validación de liquidación", readText))
                 {
-                    Session["MyAlert"] += "  <script type='text/javascript'>alertify.error('no se pudo enviar la notificación a su jefe inmediato superior, favor notifique a sistemas.');</script>";
+                    Session["MyAlert"] += "  <script type='text/javascript'>alertify.error('no se pudo enviar la notificación al director de área, favor notifique a sistemas.');</script>";
                 }
             }
 

@@ -24,7 +24,7 @@ namespace web.Controllers
             {
                 suplidos.Add(item.Id);
             }
-            var list = db.Anticipos.Where(a => (a.Eliminado != true && a.IdEstado == Estado.Terminado) && (a.UsuarioAutoriza == id || suplidos.Any(s=>s==a.UsuarioAutoriza)));
+            var list = db.Anticipos.Where(a => (a.Eliminado != true && a.IdEstado == Estado.Terminado) && (a.UsuarioAutoriza == id || suplidos.Any(s=>s==a.UsuarioAutoriza))).Include(l=>l.Viaje.Usuario.Pais.Moneda);
             if (!String.IsNullOrEmpty(searchString))
             {
                 list = list.Where(s => s.NoSolicitud.Contains(searchString)
@@ -42,7 +42,7 @@ namespace web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var anticipos = db.Anticipos.Where(a => a.IdAnticipo == id && a.Eliminado != true).Include(a => a.Viaje).Include(a => a.ConceptosAdicionales);
+            var anticipos = db.Anticipos.Where(a => a.IdAnticipo == id && a.Eliminado != true).Include(a => a.Viaje.Usuario.Pais.Moneda).Include(a => a.ConceptosAdicionales);
             ViewBag.Porcentaje = new List<SelectListItem>()
                                             {new SelectListItem() { Text = "25%", Value = "25" },
                                             new SelectListItem() { Text = "50%", Value = "50" },
@@ -58,6 +58,23 @@ namespace web.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditAnticipo(Anticipos anticipo)
+        {
+            var anticip = db.Anticipos.Where(a=>a.IdAnticipo == anticipo.IdAnticipo).Include(a => a.Viaje.Usuario.Pais.Moneda).Include(a => a.ConceptosAdicionales).SingleOrDefault();
+            anticip.Observaciones = anticipo.Observaciones;
+            anticip.FechaMod = DateTime.Now;
+            anticip.UsuarioMod = GetUserId(User);
+            db.Entry(anticip).State = EntityState.Modified;
+            db.SaveChanges();
+            ViewBag.Porcentaje = new List<SelectListItem>()
+                                            {new SelectListItem() { Text = "25%", Value = "25" },
+                                            new SelectListItem() { Text = "50%", Value = "50" },
+                                            new SelectListItem() { Text = "75%", Value = "75" },
+                                            new SelectListItem() { Text = "100%", Value = "100" }};
+            return View("AprobarDenegar",anticip);
+        }
 
 
         public ActionResult Aprobado(int? id)
@@ -66,7 +83,7 @@ namespace web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var anticipo = db.Anticipos.Where(a => a.IdAnticipo == id).Include(a => a.Viaje.Usuario).SingleOrDefault();
+            var anticipo = db.Anticipos.Where(a => a.IdAnticipo == id).Include(a => a.Viaje.Usuario.Pais.Moneda).SingleOrDefault();
             anticipo.IdEstado = Estado.Aprobado;
             anticipo.UsuarioMod = GetUserId(User);
             anticipo.FechaMod = DateTime.Now;
@@ -75,7 +92,7 @@ namespace web.Controllers
             db.SaveChanges();
             string readText = System.IO.File.ReadAllText(@"C:\FormatosCorreo\ViaticosAprobados.html");
             string readText2 = System.IO.File.ReadAllText(@"C:\FormatosCorreo\ProcesarViatico.html");
-            readText2 = readText2.Replace("$$nombre##", anticipo.Viaje.Usuario.FullName).Replace("$$$monto##", anticipo.TotalAnticipar.ToString("$###,###.00"));
+            readText2 = readText2.Replace("$$nombre##", anticipo.Viaje.Usuario.FullName).Replace("$$monto##", anticipo.TotalAnticipar.ToString(anticipo.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,###.00"));
             var asist = db.AsistenteTesoreria.Include(a => a.Asistente);
             List<string> to = new List<string>();
             foreach (var item in asist.ToList())
@@ -119,7 +136,7 @@ namespace web.Controllers
             {
                 suplidos.Add(item.Id);
             }
-            var list = db.LiquidacionesViaje.Where(a => ((a.Eliminado != true  && a.IdEstado == Estado.Terminado && a.TotalAnticipo == 0) && (a.UsuarioAutoriza == id || suplidos.Any(s => s == a.UsuarioAutoriza))) || ((a.Eliminado != true && a.IdEstado == Estado.Validado) && (a.UsuarioAutoriza == id || suplidos.Any(s => s == a.UsuarioAutoriza)))).Include(a => a.Moneda);
+            var list = db.LiquidacionesViaje.Where(a => ((a.Eliminado != true  && a.IdEstado == Estado.Terminado && a.TotalAnticipo == 0) && (a.UsuarioAutoriza == id || suplidos.Any(s => s == a.UsuarioAutoriza))) || ((a.Eliminado != true && a.IdEstado == Estado.Validado) && (a.UsuarioAutoriza == id || suplidos.Any(s => s == a.UsuarioAutoriza)))).Include(a => a.Moneda).Include(a=>a.Viaje.Usuario.Pais.Moneda);
             if (!String.IsNullOrEmpty(searchString))
             {
                 list = list.Where(s => s.NoSolicitud.Contains(searchString)
@@ -139,7 +156,7 @@ namespace web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var liquidaciones = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id && a.Eliminado != true).Include(l => l.Viaje).Include(l => l.DetallesLiquidacion);
+            var liquidaciones = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id && a.Eliminado != true).Include(l => l.Viaje.Usuario.Pais.Moneda).Include(l=>l.Moneda).Include(l => l.DetallesLiquidacion);
 
             if (liquidaciones.ToList().Count() > 0)
             {
@@ -187,7 +204,7 @@ namespace web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var liquidacion = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id).Include(a => a.Viaje.Usuario).SingleOrDefault();
+            var liquidacion = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id).Include(a => a.Viaje.Usuario.Pais.Moneda).SingleOrDefault();
             liquidacion.IdEstado = Estado.Aprobado;
             liquidacion.UsuarioMod = GetUserId(User);
             liquidacion.FechaMod = DateTime.Now;
@@ -197,7 +214,7 @@ namespace web.Controllers
             string readText = System.IO.File.ReadAllText(@"C:\FormatosCorreo\LiquidacionAprobada.html");
             if (liquidacion.TotalAnticipo==0) {
                 string readText2 = System.IO.File.ReadAllText(@"C:\FormatosCorreo\ProcesarLiquidacion.html");
-                readText2 = readText2.Replace("$$nombre##", liquidacion.Viaje.Usuario.FullName).Replace("$$$monto##", liquidacion.TotalAsignado.ToString("###,###.00"));
+                readText2 = readText2.Replace("$$nombre##", liquidacion.Viaje.Usuario.FullName).Replace("$$monto##", liquidacion.TotalAsignado.ToString(liquidacion.Viaje.Usuario.Pais.Moneda.First().Simbolo+"###,###.00"));
                 var asist = db.AsistenteTesoreria.Include(a => a.Asistente);
                 List<string> to = new List<string>();
                 foreach(var item in asist.ToList())
@@ -214,7 +231,7 @@ namespace web.Controllers
                 var jefe = db.JefesCreditoContabilidad.Where(j => j.IdPais == liquidacion.Viaje.Usuario.IdPais).FirstOrDefault();
                 var us = db.Users.Find(jefe.IdJefeUsuario);
                 string readText2 = System.IO.File.ReadAllText(@"C:\FormatosCorreo\ProcesarLiquidacion.html");
-                readText2 = readText2.Replace("$$nombre##", liquidacion.Viaje.Usuario.FullName).Replace("$$$monto##", (liquidacion.TotalAnticipo - liquidacion.TotalAsignado).ToString("$ ###,###.00"));
+                readText2 = readText2.Replace("$$nombre##", liquidacion.Viaje.Usuario.FullName).Replace("$$monto##", (liquidacion.TotalAnticipo - liquidacion.TotalAsignado*liquidacion.TasaCambio).ToString(liquidacion.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,###.00"));
 
                 if (!EnviarCorreo(liquidacion.Viaje.Usuario.Email, "Liquidación aprobada", readText) || !EnviarCorreo(us.Email, "Procesar liquidación", readText2))
                 {

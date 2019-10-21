@@ -33,7 +33,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CentroCosto, htmlAttributes: new { @class = "control-label col-md-4" })
             <div class="col-md-8">
-                @Html.DropDownList("CentroCosto", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("IdCeco", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CentroCosto, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -60,7 +60,11 @@
         @Html.HiddenFor(model => model.FechaCrea)
         @Html.HiddenFor(model => model.FechaMod)
         @Html.HiddenFor(model => model.Eliminado)
-
+        <p class="text-info" style="font-size: 10px;">
+            Notas: <br />
+            1. Recuerda que los valores introducidos para la liquidación debe estar en la moneda del pais que visitaste.<br />
+            2. La tasa de cambio debe reflejar cuandas monedas de tu país hay en una unidad de la moneda del exterior a liquidar ejemplo: 1 Quetzal equivale a 0.13 Dolares.
+        </p>
 
         <div class="form-group">
             <div class="col-md-12 text-center">
@@ -71,3 +75,22 @@
     </div>
 }
 
+<script>
+    $("#IdCeco").on("change", function () {
+        urlget = "Cuentas?id=" + $("#IdCeco").get(0).value + "&idClasificacion="+@ViewBag.clasificaciónViaje;
+        $("#CuentaGasto").empty();
+        $.ajax({
+            url: urlget,
+            error: function (data) {
+                alertify.error("Error al comunicarse con el servidor...");
+            }
+        }).then(function (data) {
+            for (var i=0; i<data.length; i++)
+            {
+                $("#CuentaGasto").append(new Option(data[i].Value.toString(), data[i].Key.toString()));
+            }
+        });
+        console.log(urlget);
+
+    })
+</script>

@@ -73,15 +73,15 @@
                     @Html.DisplayFor(modelItem => ff)
                 </td>
                 <td style="text-align:right; padding-right: 30px;">
-                    @{ var ta = item.TotalAnticipo.ToString("###,##0.00");}
+                    @{ var ta = item.TotalAnticipo.ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo+"###,##0.00");}
                     @Html.DisplayFor(modelItem => ta)
                 </td>
                 <td style="text-align:right; padding-right: 30px;">
-                    @{ var tas = item.TotalAsignado.ToString("###,##0.00");}
+                    @{ var tas = (item.TotalAsignado * item.TasaCambio).ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,##0.00");}
                     @Html.DisplayFor(modelItem => tas)
                 </td>
                 <td style="text-align:right; padding-right: 30px;">
-                    @{ var dif = (item.TotalAnticipo - item.TotalAsignado).ToString("###,##0.00");}
+                    @{ var dif = (item.TotalAnticipo - (item.TotalAsignado * item.TasaCambio)).ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,##0.00");}
                     @Html.DisplayFor(modelItem => dif)
                 </td>
                 @*<td>

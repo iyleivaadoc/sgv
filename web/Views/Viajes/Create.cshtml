@@ -6,10 +6,10 @@
 }
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal col-md-6 col-md-offset-3">
         <h4>Registrar nuevo proceso</h4>
         <hr />
@@ -25,7 +25,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DescripcionViaje, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.DescripcionViaje, new { @class = "form-control", @style= "height: 100px;" })
+                @Html.TextAreaFor(model => model.DescripcionViaje, new { @class = "form-control", @style = "height: 100px;" })
                 @Html.ValidationMessageFor(model => model.DescripcionViaje, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -39,7 +39,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IdPaisDestino,htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IdPaisDestino, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("IdPaisDestino", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.IdPaisDestino, "", new { @class = "text-danger" })
@@ -86,10 +86,10 @@
             </div>
         </div>
 
-        
+
 
         @Html.HiddenFor(model => model.IdUsuarioViaja)
-        @Html.HiddenFor(model=>model.UsuarioCrea)
+        @Html.HiddenFor(model => model.UsuarioCrea)
         @Html.HiddenFor(model => model.UsuarioMod)
         @Html.HiddenFor(model => model.FechaCrea)
         @Html.HiddenFor(model => model.FechaMod)
@@ -98,19 +98,95 @@
 
         <div class="form-group">
             <div class="col-md-12 text-center">
-                <input type="submit" value="Crear" class="btn btn-success" />
-                @Html.ActionLink("Cancelar", "Index",null,new { @class="btn btn-warning"})
+                <input type="submit" id="bttn" value="Crear" class="btn btn-success" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-warning" })
             </div>
         </div>
     </div>
 }
 
 <script>
+    $("#ClasificacionViaje").empty();
+    $("#ClasificacionViaje").append(new Option("Interior", 1));
+    $("#ClasificacionViaje").append(new Option("Otra", 3));
+    $("#ClasificacionViaje").get(0).value = 1;
+
     $("#ViaViaje").on("change", function () {
         if ($("#ViaViaje").get(0).value == 3) {
             $("#otro").show();
-        }else {
+            if ($("#IdPaisOrigen").get(0).value == $("#IdPaisDestino").get(0).value) {
+                $("#ClasificacionViaje").empty();
+                $("#ClasificacionViaje").append(new Option("Otra", 3));
+                $("#ClasificacionViaje").get(0).value = 3;
+            }
+        } else {
             $("#otro").hide();
+            if ($("#IdPaisOrigen").get(0).value == $("#IdPaisDestino").get(0).value) {
+                $("#ClasificacionViaje").empty();
+                $("#ClasificacionViaje").append(new Option("Interior", 1));
+                $("#ClasificacionViaje").append(new Option("Otra", 3));
+                $("#ClasificacionViaje").get(0).value = 1;
+            }
         }
     })
+    $("#IdPaisOrigen").on("change", function () {
+        if ($("#IdPaisOrigen").get(0).value == $("#IdPaisDestino").get(0).value) {
+            $("#ClasificacionViaje").empty();
+            if ($("#ViaViaje").get(0).value == 3) {
+                $("#ClasificacionViaje").append(new Option("Otra", 3));
+                $("#ClasificacionViaje").get(0).value = 3;
+            } else {
+                $("#ClasificacionViaje").append(new Option("Interior", 1));
+                $("#ClasificacionViaje").append(new Option("Otra", 3));
+                $("#ClasificacionViaje").get(0).value = 1;
+            }
+        } else {
+            $("#ClasificacionViaje").empty();
+            $("#ClasificacionViaje").append(new Option("Exterior", 2));
+            $("#ClasificacionViaje").get(0).value = 2;
+        }
+    })
+    $("#IdPaisDestino").on("change", function () {
+        if ($("#IdPaisOrigen").get(0).value == $("#IdPaisDestino").get(0).value) {
+            $("#ClasificacionViaje").empty();
+            if ($("#ViaViaje").get(0).value == 3) {
+                $("#ClasificacionViaje").append(new Option("Otra", 3));
+                $("#ClasificacionViaje").get(0).value = 3;
+            } else {
+                $("#ClasificacionViaje").append(new Option("Interior", 1));
+                $("#ClasificacionViaje").append(new Option("Otra", 3));
+                $("#ClasificacionViaje").get(0).value = 1;
+            }
+        } else {
+            $("#ClasificacionViaje").empty();
+            $("#ClasificacionViaje").append(new Option("Exterior", 2));
+            $("#ClasificacionViaje").get(0).value = 2;
+        }
+    })
+
+
+    $("#FechaInicio").focusout(function () {
+        var fec = $("#FechaInicio").get(0).value;
+        var fecF = $("#FechaFin").get(0).value;
+        if (fec > fecF) {
+            alertify.error("La fecha de inicio debe ser menor que la fecha de fin.");
+            $("#bttn").prop('disabled', true);
+        }
+        else {
+            $("#bttn").prop('disabled', false);
+        }
+    })
+
+    $("#FechaFin").focusout(function () {
+        var fec = $("#FechaInicio").get(0).value;
+        var fecF = $("#FechaFin").get(0).value;
+        if (fec > fecF) {
+            alertify.error("La fecha de inicio debe ser menor que la fecha de fin.");
+            $("#bttn").prop('disabled', true);
+        }
+        else {
+            $("#bttn").prop('disabled', false);
+        }
+    })
+
 </script>

@@ -30,6 +30,8 @@ namespace web.Models
         public int IdViaje { get; set; }
         [StringLength(128)]
         public string UsuarioAutoriza { get; set; }
+        [StringLength(256)]
+        public string Observaciones { get; set; }
         public virtual Viajes Viaje { get; set; }
         public ICollection<ConceptosAdicionales> ConceptosAdicionales { get; set; }
     }

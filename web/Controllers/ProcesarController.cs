@@ -18,7 +18,7 @@ namespace web.Controllers
         public ActionResult IndexAnticipo(int? page, string searchString)
         {
             var id = GetUserId(User);
-            var list = db.Anticipos.Where(a => a.Eliminado != true && a.IdEstado == Estado.Aprobado);
+            var list = db.Anticipos.Where(a => a.Eliminado != true && a.IdEstado == Estado.Aprobado).Include(a=>a.Viaje.Usuario.Pais.Moneda);
             if (!String.IsNullOrEmpty(searchString))
             {
                 list = list.Where(s => s.NoSolicitud.Contains(searchString)
@@ -38,7 +38,7 @@ namespace web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var anticipos = db.Anticipos.Where(a => a.IdAnticipo == id && a.Eliminado != true).Include(a => a.Viaje).Include(a => a.ConceptosAdicionales);
+            var anticipos = db.Anticipos.Where(a => a.IdAnticipo == id && a.Eliminado != true).Include(a => a.Viaje.Usuario.Pais.Moneda).Include(a => a.ConceptosAdicionales);
             ViewBag.Porcentaje = new List<SelectListItem>()
                                             {new SelectListItem() { Text = "25%", Value = "25" },
                                             new SelectListItem() { Text = "50%", Value = "50" },
@@ -54,6 +54,24 @@ namespace web.Controllers
             }
         }
 
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProcesar(Anticipos anticipo)
+        {
+            var anticip = db.Anticipos.Where(a => a.IdAnticipo == anticipo.IdAnticipo).Include(a => a.Viaje).Include(a => a.ConceptosAdicionales).SingleOrDefault();
+            anticip.Observaciones = anticipo.Observaciones;
+            anticip.FechaMod = DateTime.Now;
+            anticip.UsuarioMod = GetUserId(User);
+            db.Entry(anticip).State = EntityState.Modified;
+            db.SaveChanges();
+            ViewBag.Porcentaje = new List<SelectListItem>()
+                                            {new SelectListItem() { Text = "25%", Value = "25" },
+                                            new SelectListItem() { Text = "50%", Value = "50" },
+                                            new SelectListItem() { Text = "75%", Value = "75" },
+                                            new SelectListItem() { Text = "100%", Value = "100" }};
+            return View("AprobarDenegar", anticip);
+        }
 
         public ActionResult Finalizado(int? id)
         {
@@ -102,7 +120,7 @@ namespace web.Controllers
         public ActionResult IndexLiquidacion(int? page, string searchString)
         {
             var id = GetUserId(User);
-            var list = db.LiquidacionesViaje.Where(a => a.Eliminado != true && a.IdEstado == Estado.Aprobado && a.TotalAnticipo > 0).Include(a => a.Moneda);
+            var list = db.LiquidacionesViaje.Where(a => a.Eliminado != true && a.IdEstado == Estado.Aprobado && a.TotalAnticipo > 0).Include(a => a.Moneda).Include(a=>a.Viaje.Usuario.Pais.Moneda);
             if (!String.IsNullOrEmpty(searchString))
             {
                 list = list.Where(s => s.NoSolicitud.Contains(searchString)
@@ -121,7 +139,7 @@ namespace web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var liquidaciones = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id && a.Eliminado != true).Include(l => l.Viaje).Include(l => l.DetallesLiquidacion);
+            var liquidaciones = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id && a.Eliminado != true).Include(l => l.Viaje.Usuario.Pais.Moneda).Include(l => l.DetallesLiquidacion).Include(l=>l.Moneda);
 
             if (liquidaciones.ToList().Count() > 0)
             {
@@ -148,7 +166,7 @@ namespace web.Controllers
             }
             ViewBag.CuentaGasto = new SelectList(db.CuentasGasto, "IdCuentaGasto", "cuenta", detallesLiquidacion.CuentaGasto);
             ViewBag.IdLiquidacionViaje = new SelectList(db.LiquidacionesViaje, "IdLiquidacionViaje", "UsuarioCrea", detallesLiquidacion.IdLiquidacionViaje);
-            ViewBag.CentroCosto = new SelectList(db.Users.Where(u => u.Nombres != "Administrador" && u.Apellidos != "Administrador"), "CentroCosto", "FullName", detallesLiquidacion.CentroCosto);
+            ViewBag.CentroCosto = new SelectList(db.Users.Where(u => u.Nombres != "Administrador" && u.Apellidos != "Administrador"), "Id", "FullName", detallesLiquidacion.IdCeCo);
             return View(detallesLiquidacion);
         }
 
@@ -208,7 +226,7 @@ namespace web.Controllers
         public ActionResult IndexLiquidacionTesoreria(int? page, string searchString)
         {
             var id = GetUserId(User);
-            var list = db.LiquidacionesViaje.Where(a => a.Eliminado != true && a.IdEstado == Estado.Aprobado && a.TotalAnticipo == 0).Include(a => a.Moneda);
+            var list = db.LiquidacionesViaje.Where(a => a.Eliminado != true && a.IdEstado == Estado.Aprobado && a.TotalAnticipo == 0).Include(a => a.Moneda).Include(a=>a.Viaje.Usuario.Pais.Moneda);
             if (!String.IsNullOrEmpty(searchString))
             {
                 list = list.Where(s => s.NoSolicitud.Contains(searchString)
@@ -227,7 +245,7 @@ namespace web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var liquidaciones = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id && a.Eliminado != true).Include(l => l.Viaje).Include(l => l.DetallesLiquidacion);
+            var liquidaciones = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id && a.Eliminado != true).Include(l => l.Viaje.Usuario.Pais.Moneda).Include(l => l.DetallesLiquidacion).Include(l=>l.Moneda);
 
             if (liquidaciones.ToList().Count() > 0)
             {
@@ -323,15 +341,15 @@ namespace web.Controllers
             worksheet.Cell(1, 1).Value = "Cuenta de Mayor";
             worksheet.Cell(1, 4).Value = "Importe Moneda";
             worksheet.Cell(1, 10).Value = "Texto";
-            worksheet.Cell(1, 16).Value = "Centro Costo";
+            worksheet.Cell(1, 15).Value = "Centro Costo";
             var liq= db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id && a.Eliminado != true).Include(l => l.Viaje).Include(l => l.DetallesLiquidacion).FirstOrDefault();
             int index = 2;
-            foreach(var item in liq.DetallesLiquidacion)
+            foreach(var item in liq.DetallesLiquidacion.Where(dt=>dt.Eliminado!=true))
             {
                 worksheet.Cell(index, 1).Value = item.CuentaGasto;
                 worksheet.Cell(index, 4).Value = (item.Monto * liq.TasaCambio).ToString("#####0.00");
                 worksheet.Cell(index, 10).Value = item.ComentariosSolicitante;
-                worksheet.Cell(index, 16).Value = liq.Viaje.Usuario.CentroCosto;
+                worksheet.Cell(index, 15).Value = item.CentroCosto;
                 index++;
             }
             return new ExcelResult(wb, liq.Viaje.Viaje+"-"+liq.Viaje.Usuario.UserName);

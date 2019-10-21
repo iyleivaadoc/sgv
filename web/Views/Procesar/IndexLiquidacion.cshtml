@@ -33,10 +33,10 @@
                 @Html.DisplayName("Proceso")
             </th>
             <th>
-                @Html.DisplayName("Total liquidación")
+                @Html.DisplayName("Total Reintegro (Moneda local)")
             </th>
             <th>
-                @Html.DisplayName("Moneda")
+                @Html.DisplayName("Moneda de cambio")
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().TasaCambio)
@@ -57,7 +57,7 @@
                     @Html.DisplayFor(modelItem => item.Viaje.Viaje)
                 </td>
                 <td  style="text-align:right; padding-right:10px;">
-                    @{ var ta = (item.TotalAnticipo-(item.TotalAsignado*item.TasaCambio)).ToString("###,##0.00");}
+                    @{ var ta = (item.TotalAnticipo-(item.TotalAsignado*item.TasaCambio)).ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo+"###,##0.00");}
                     @Html.DisplayFor(modelItem => ta)
                 </td>
                 <td>

@@ -26,7 +26,7 @@ namespace web.Controllers
                 {
                     pais.Add(item.IdPais.ToString());
                 }
-                var list = db.Anticipos.Where(a => pais.Any(p => p == a.Viaje.Usuario.IdPais.ToString() && a.Eliminado != true && a.IdEstado == Estado.Bloqueado));
+                var list = db.Anticipos.Where(a => pais.Any(p => p == a.Viaje.Usuario.IdPais.ToString() && a.Eliminado != true && a.IdEstado == Estado.Bloqueado)).Include(a=>a.Viaje.Usuario.Pais.Moneda);
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     list = list.Where(s => s.NoSolicitud.Contains(searchString)
@@ -47,7 +47,7 @@ namespace web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var anticipos = db.Anticipos.Where(a => a.IdAnticipo == id && a.Eliminado != true).Include(a => a.Viaje).Include(a => a.ConceptosAdicionales);
+            var anticipos = db.Anticipos.Where(a => a.IdAnticipo == id && a.Eliminado != true).Include(a => a.Viaje.Usuario.Pais.Moneda).Include(a => a.ConceptosAdicionales);
             ViewBag.Porcentaje = new List<SelectListItem>()
                                             {new SelectListItem() { Text = "25%", Value = "25" },
                                             new SelectListItem() { Text = "50%", Value = "50" },
@@ -78,7 +78,7 @@ namespace web.Controllers
             db.SaveChanges();
             string readText = System.IO.File.ReadAllText(@"C:\FormatosCorreo\AnticipoDesbloqueado.html");
             string readText2 = System.IO.File.ReadAllText(@"C:\FormatosCorreo\AprobarViatico.html");
-            readText2 = readText2.Replace("$$nombre##", anticipo.Viaje.Usuario.FullName).Replace("$$$monto##", anticipo.TotalAnticipar.ToString("###,###.00"));
+            readText2 = readText2.Replace("$$nombre##", anticipo.Viaje.Usuario.FullName).Replace("$$monto##", anticipo.TotalAnticipar.ToString("###,###.00"));
             var to = db.Users.Find(anticipo.UsuarioAutoriza);
             if (!EnviarCorreo(anticipo.Viaje.Usuario.Email, "Anticipo Desbloqueado", readText) || !EnviarCorreo(to.Email, "Aprobar anticipo", readText2))
             {

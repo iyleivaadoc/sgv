@@ -33,13 +33,13 @@
                 @Html.DisplayName("Proceso")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().TotalViaje)
+                @Html.DisplayName("Total Anticipo (Monda país de origen)")
             </th>
             <th>
                 @Html.DisplayName("Porcentaje")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().TotalAnticipar)
+                @Html.DisplayName("Total anticipo (Moneda país de origen)")
             </th>
             <th>Opciones</th>
         </tr>
@@ -57,7 +57,7 @@
                     @Html.DisplayFor(modelItem => item.Viaje.Viaje)
                 </td>
                 <td style="text-align:right; padding-right:10px;">
-                    @{ var tv = item.TotalViaje.ToString("$###,##0.00");}
+                    @{ var tv = item.TotalViaje.ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo +"###,##0.00");}
                     @Html.DisplayFor(modelItem => tv)
                 </td>
                 <td>
@@ -65,7 +65,7 @@
                 </td>
 
                 <td style="text-align:right; padding-right:10px;">
-                    @{ var tad = item.TotalAnticipar.ToString("$###,##0.00");}
+                    @{ var tad = item.TotalAnticipar.ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo+"###,##0.00");}
                     @Html.DisplayFor(modelItem => tad)
                 </td>
                 <td class="text-center">

@@ -27,7 +27,7 @@ namespace web.Controllers
                 {
                     pais.Add(item.IdPais.ToString());
                 }
-                var list = db.LiquidacionesViaje.Where(a => pais.Any(p => p == a.Viaje.Usuario.IdPais.ToString() && a.Eliminado != true && a.IdEstado == Estado.Terminado && a.TotalAnticipo > 0)).Include(a => a.Moneda);
+                var list = db.LiquidacionesViaje.Where(a => pais.Any(p => p == a.Viaje.Usuario.IdPais.ToString() && a.Eliminado != true && a.IdEstado == Estado.Terminado && a.TotalAnticipo > 0)).Include(l => l.Viaje.Usuario.Pais.Moneda).Include(a => a.Moneda);
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     list = list.Where(s => s.NoSolicitud.Contains(searchString)
@@ -49,7 +49,7 @@ namespace web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var liquidaciones = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id && a.Eliminado != true).Include(l => l.Viaje).Include(l => l.DetallesLiquidacion);
+            var liquidaciones = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id && a.Eliminado != true).Include(l => l.DetallesLiquidacion).Include(l=>l.Moneda);
 
             if (liquidaciones.ToList().Count() > 0)
             {
@@ -98,8 +98,8 @@ namespace web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var liquidacion = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id).Include(a => a.Viaje.Usuario).SingleOrDefault();
-            if ((liquidacion.TotalAnticipo*liquidacion.TasaCambio) - liquidacion.TotalAsignado <= 0)
+            var liquidacion = db.LiquidacionesViaje.Where(a => a.IdLiquidacionViaje == id).Include(a => a.Viaje.Usuario.Pais.Moneda).SingleOrDefault();
+            if (liquidacion.TotalAnticipo - (liquidacion.TotalAsignado * liquidacion.TasaCambio) < 0)
             {
                 liquidacion.IdEstado = Estado.Validado;
             }
@@ -111,11 +111,11 @@ namespace web.Controllers
             db.Entry(liquidacion).State = EntityState.Modified;
             Session["MyAlert"] = "<script type='text/javascript'>alertify.success('Proceso finalizado.');</script>";
             db.SaveChanges();
-            if ((liquidacion.TotalAnticipo*liquidacion.TasaCambio) - liquidacion.TotalAsignado <= 0)
+            if ((liquidacion.TotalAnticipo - (liquidacion.TotalAsignado * liquidacion.TasaCambio) )< 0)
             {
                 string readText = System.IO.File.ReadAllText(@"C:\FormatosCorreo\ValidacionAprobada.html");
                 string readText2 = System.IO.File.ReadAllText(@"C:\FormatosCorreo\AprobarLiquidacion.html");
-                readText2 = readText2.Replace("$$nombre##", liquidacion.Viaje.Usuario.FullName).Replace("$$$monto##", (liquidacion.TotalAnticipo - liquidacion.TotalAsignado).ToString("$###,###.00"));
+                readText2 = readText2.Replace("$$nombre##", liquidacion.Viaje.Usuario.FullName).Replace("$$monto##", (liquidacion.TotalAnticipo - (liquidacion.TotalAsignado * liquidacion.TasaCambio)).ToString(liquidacion.Viaje.Usuario.Pais.Moneda.First().Simbolo+"###,###.00"));
                 var us = db.Users.Find(liquidacion.UsuarioAutoriza);
 
                 if (!EnviarCorreo(liquidacion.Viaje.Usuario.Email, "Validación de liquidación aprobada", readText) || !EnviarCorreo(us.Email, "Aprobación de liquidación", readText2))

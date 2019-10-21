@@ -71,23 +71,23 @@
                     @{ var ff = item.Viaje.FechaFin.ToShortDateString();}
                     @Html.DisplayFor(modelItem => ff)
                 </td>
-                <td>
-                    @{ var ta = item.TotalAdicionales.ToString("###,##0.00");}
+                <td style="text-align:right;">
+                    @{ var ta = item.TotalAdicionales.ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo+"###,##0.00");}
                     @Html.DisplayFor(modelItem => ta)
                 </td>
-                <td>
-                    @{ var tas = item.TotalAsignado.ToString("###,##0.00");}
+                <td style="text-align:right;">
+                    @{ var tas = item.TotalAsignado.ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,##0.00");}
                     @Html.DisplayFor(modelItem => tas)
                 </td>
-                <td>
-                    @{ var tv = item.TotalViaje.ToString("###,##0.00");}
+                <td style="text-align:right;">
+                    @{ var tv = item.TotalViaje.ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,##0.00");}
                     @Html.DisplayFor(modelItem => tv)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Porcentaje)
                 </td>
-                <td>
-                    @{ var tan = item.TotalAnticipar.ToString("###,##0.00");}
+                <td style="text-align:right;">
+                    @{ var tan = item.TotalAnticipar.ToString(item.Viaje.Usuario.Pais.Moneda.First().Simbolo + "###,##0.00");}
                     @Html.DisplayFor(modelItem => tan)
                 </td>
                 <td>

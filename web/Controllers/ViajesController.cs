@@ -19,7 +19,7 @@ namespace web.Controllers
         public ActionResult Index(int? page, string searchString)
         {
             var usuario = GetUserId(User);
-            var viajes = db.Viajes.Where(v => v.Eliminado != true && v.IdUsuarioViaja == usuario).Include(v => v.Usuario);
+            var viajes = db.Viajes.Where(v => v.Eliminado != true && v.IdUsuarioViaja == usuario).Include(v => v.Usuario).Include(v=>v.Anticipos).Include(v=>v.LiquidacionesViaje);
             if (!String.IsNullOrEmpty(searchString))
             {
                 viajes = viajes.Where(s => s.Viaje.Contains(searchString)

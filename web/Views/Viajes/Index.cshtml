@@ -33,6 +33,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.First().DescripcionViaje)
             </th>
+            <th style="width: 12%;">
+                @Html.DisplayName("Destino")
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().FechaInicio)
             </th>
@@ -44,6 +47,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().ClasificacionViaje)
+            </th>
+            <th>
+                @Html.DisplayName("Anticipo")
+            </th>
+            <th>
+                @Html.DisplayName("Liquidación")
             </th>
             <th style="width: 15%;">Opciones</th>
         </tr>
@@ -58,6 +67,9 @@
                     @Html.DisplayFor(modelItem => item.DescripcionViaje)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Destino.Pais)
+                </td>
+                <td>
                     @Html.EditorFor(modelItem => item.FechaInicio, new { htmlAttributes = new { @class = "editFechaToDisplay", @disabled = "disabled", @style = "" } })
                 </td>
                 <td>
@@ -69,15 +81,37 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ClasificacionViaje)
                 </td>
-
+                <td>
+                    @{ 
+                        var anti = "Sin anticipo";
+                        if (item.Anticipos.Where(a => a.Eliminado != true).Count() > 0)
+                        {
+                            anti = item.Anticipos.Where(a => a.Eliminado != true).First().IdEstado.ToString();
+                        }
+                    }
+                    @anti
+                </td>
+                <td>
+                    @{
+                        var liqui = "Sin Liquidación";
+                        if (item.LiquidacionesViaje.Where(l => l.Eliminado != true).Count() > 0)
+                        {
+                            liqui = item.LiquidacionesViaje.Where(l => l.Eliminado != true).First().IdEstado.ToString();
+                        }
+                    }
+                    @liqui
+                </td>
                 <td>
                     @Html.ActionLink(" ", "Gestionar", new { id = item.IdViaje }, new { @class = "btn btn-success btn-sm glyphicon glyphicon-cog", @title = "Gestionar" })
                     @Html.ActionLink(" ", "Details", new { id = item.IdViaje }, new { @class = "btn btn-info btn-sm glyphicon glyphicon-info-sign", @title = "Detalles" })
-                    @Html.ActionLink(" ", "Edit", new { id = item.IdViaje }, new { @class = "btn btn-warning btn-sm glyphicon glyphicon-edit", @title = "Editar" })
-                    @Html.ActionLink(" ", "Delete", new { id = item.IdViaje }, new { @class = "btn btn-danger btn-sm glyphicon glyphicon-remove-circle", @title = "Eliminar" })
+                    @if (item.Anticipos.Where(a => a.Eliminado != true).Count() == 0 && item.LiquidacionesViaje.Where(l => l.Eliminado != true).Count() == 0)
+                    {
+                        @Html.ActionLink(" ", "Edit", new { id = item.IdViaje }, new { @class = "btn btn-warning btn-sm glyphicon glyphicon-edit", @title = "Editar" })
+                        @Html.ActionLink(" ", "Delete", new { id = item.IdViaje }, new { @class = "btn btn-danger btn-sm glyphicon glyphicon-remove-circle", @title = "Eliminar", @style = "margin-left: 4px;" })
+                    }
                 </td>
             </tr>
-        }
+                        }
 
     </table>
     Mostrando de @Model.FirstItemOnPage a @Model.LastItemOnPage De @Model.TotalItemCount
@@ -87,6 +121,6 @@
         page,
         sortOrder = ViewBag.CurrentSort,
         currentFilter = ViewBag.CurrentFilter,
-        SearchString= ViewBag.CurrentFilter
+        SearchString = ViewBag.CurrentFilter
     }))
 </div>

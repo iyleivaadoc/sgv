@@ -35,8 +35,9 @@ namespace web.Models
         public virtual Paises Pais { get; set; }
         [Display(Name = "Número de teléfono"), Required(ErrorMessage = "El número de teléfono es requerido.")]
         override
-        public string PhoneNumber
-        { get; set; }
+        public string PhoneNumber{ get; set; }
+        [StringLength(100), Display(Name ="Cargo laboral")]
+        public string Puesto { get; set; }
         [NotMapped]
         public string FullName
         {
