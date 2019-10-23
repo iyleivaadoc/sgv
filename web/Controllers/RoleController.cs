@@ -14,7 +14,7 @@ using web.ViewModels;
 
 namespace web.Controllers
 {
-    [Authorize(Roles = "Administrador")]
+    [Authorize()]
     public class RoleController : Controller
     {
         private ApplicationRoleManager _roleManager;

@@ -13,7 +13,7 @@ using System.Web.Helpers;
 
 namespace web.Controllers
 {
-    [Authorize(Roles ="Administrador")]
+    [Authorize()]
     public class UserController : Controller
     {
         private ApplicationUserManager _userManager;
