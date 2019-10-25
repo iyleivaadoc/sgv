@@ -53,6 +53,10 @@
                         @Html.ActionLink("Detalles", "Details", new { id = item.Id }, new { @class = "btn btn-xs btn-info" })
                         @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-xs btn-warning" })
                         @Html.ActionLink("Borrar", "Delete", new { id = item.Id }, new { @class = "btn btn-xs btn-danger" })
+                        @if (item.LockoutEndDateUtc > DateTime.Now)
+                        {
+                            @Html.ActionLink("Desbloquear", "Unlock", new { id = item.Id }, new { @class = "btn btn-xs btn-default" })
+                        }
                     </td>
                 </tr>
             }

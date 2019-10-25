@@ -30,6 +30,14 @@ namespace web.Controllers
             return View(list);
         }
 
+        public ActionResult Unlock(string id)
+        {
+            var user = UserManager.FindById(id);
+            user.LockoutEndDateUtc = DateTime.Now;
+            UserManager.Update(user);
+            return RedirectToAction("Index", new { message = "Usuario Desbloqueado." });
+        }
+
         public async Task<ActionResult> Details(string id)
         {
             var user = await UserManager.FindByIdAsync(id);
