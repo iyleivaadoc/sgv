@@ -23,7 +23,7 @@ namespace web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var idusuario = GetUserId(User);
-            ViewBag.usuario = UserManager.Users.Where(u => u.Id == idusuario).SingleOrDefault();
+            ViewBag.usuario = db.Users.Where(u => u.Id == idusuario).SingleOrDefault();
             var anticipos = db.Anticipos.Where(a => a.IdViaje == idViaje && a.Eliminado != true).Include(a => a.Viaje.Usuario.Pais.Moneda).Include(a => a.ConceptosAdicionales);
             ViewBag.Porcentaje = new List<SelectListItem>()
                                             {new SelectListItem() { Text = "25%", Value = "25" },

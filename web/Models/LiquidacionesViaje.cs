@@ -7,17 +7,19 @@ using System.Web;
 
 namespace web.Models
 {
-    public class LiquidacionesViaje:HuellaAuditoria
+    public class LiquidacionesViaje : HuellaAuditoria
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdLiquidacionViaje { get; set; }
-        [Display(Name ="Total Asignado")]
+        [Display(Name = "Total Asignado")]
         public double TotalAsignado { get; set; }
         //[Display(Name ="Total Viáticos")]
         //public double TotalViaticos { get; set; }
-        [Display(Name ="Tasa de cambio")]
+        [Display(Name = "Tasa de cambio")]
         public double TasaCambio { get; set; }
-        [Display(Name ="Total Anticipo")]
+        [Display(Name = "Total Anticipo")]
         public double TotalAnticipo { get; set; }
         public Estado IdEstado { get; set; }
         [ForeignKey("Viaje")]
@@ -31,5 +33,18 @@ namespace web.Models
         public virtual Viajes Viaje { get; set; }
         public Moneda Moneda { get; set; }
         public ICollection<DetallesLiquidacion> DetallesLiquidacion { get; set; }
+        [NotMapped]
+        public double PorcentajeAnticipo
+        {
+            get
+            {
+                var ant = db.Anticipos.Where(a => a.Eliminado != true && a.IdEstado == Estado.Finalizado && a.IdViaje == IdViaje).SingleOrDefault();
+                if (ant != null)
+                {
+                    return ant.Porcentaje;
+                }
+                return 0;
+            }
+        }
     }
 }

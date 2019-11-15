@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace web.Models
 {
@@ -35,8 +36,9 @@ namespace web.Models
         public virtual Paises Pais { get; set; }
         [Display(Name = "Número de teléfono"), Required(ErrorMessage = "El número de teléfono es requerido.")]
         override
-        public string PhoneNumber{ get; set; }
-        [StringLength(100), Display(Name ="Cargo laboral")]
+        public string PhoneNumber
+        { get; set; }
+        [StringLength(100), Display(Name = "Cargo laboral")]
         public string Puesto { get; set; }
         [NotMapped]
         public string FullName
@@ -63,6 +65,16 @@ namespace web.Models
                 {
                     return "";
                 }
+            }
+        }
+
+        [NotMapped]
+        public string DepartamentoDirige
+        {
+            get
+            {
+                var depto = db.Departamentos.Where(d=>d.IdPersonaACargo==Id).FirstOrDefault();
+                return depto.NombreDepartamento;
             }
         }
 

@@ -23,7 +23,7 @@ namespace web.Controllers
                 usuarios.Add(item.IdPersonaACargo);
             }
             var list = db.Users.Where(u=>usuarios.Any(us=>us==u.Id));
-            return View(list);
+            return View(list.Where(u=> u.Apellidos != "ADMINISTRADOR" && u.Nombres != "ADMINISTRADOR"));
         }
         public ActionResult AprobadorSustituto(string id)
         {
